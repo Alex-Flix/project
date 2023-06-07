@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "node app",
-    "start": "nodemon app"
+    "test": "test",
+    "start": "node index"
   },
   "engines": {
     "node": "18.14.2"
