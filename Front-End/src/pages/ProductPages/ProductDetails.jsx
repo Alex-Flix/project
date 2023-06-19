@@ -37,7 +37,7 @@ export default function ProductDetails() {
   }
   return (
     <>
-      <section id="prodetails" className="section-p1 w-75 mx-auto bg-light">
+      <section id="prodetails" className="section-p1 w-75 mx-auto text-light">
         {product.images?.length >= 3 ? (
           <div className="single-pro-img">
             <img
@@ -110,7 +110,7 @@ export default function ProductDetails() {
             placeholder="1"
           />
           <button
-            className="btn btn-outline-dark"
+            className="btn btn-outline-primary"
             disabled={
               quantity > product.available || quantity <= 0 ? true : false
             }

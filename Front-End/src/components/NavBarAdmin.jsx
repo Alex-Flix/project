@@ -1,37 +1,41 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import logo from "../assets/images/logo trans2.png";
 
 export default function NavBarAdmin() {
   const navigate = useNavigate();
   return (
     <>
-      <section className="col-md-2">
-        <article className="navbar navbar-expand-lg">
+      <section className="col-xl-2">
+        <article className="navbar navbar-expand-xl">
           <button
-            className="navbar-toggler bg-white"
+            id="nav-toggler"
+            className="navbar-toggler "
             type="button"
             data-bs-toggle="offcanvas"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
+            data-bs-target="#admin-navBar"
+            aria-controls="admin-navBar"
           >
-            <span className="navbar-toggler-icon "></span>
+            <span id="nav-toggler-icon" className="navbar-toggler-icon">
+              <i className="fa-solid fa-bars " style={{ fontSize: "28px" }}></i>
+            </span>{" "}
           </button>
         </article>
         <article
-          className="offcanvas-lg offcanvas-start bg-blue"
-          id="navbarSupportedContent"
+          className="offcanvas-xl offcanvas-start bg-blue"
+          id="admin-navBar"
           data-bs-scroll="true"
           aria-labelledby="offcanvasExampleLabel"
         >
           <div className="offcanvas-header text-light">
-            <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-              Alex
-            </h5>
+            <Link className="navbar-brand py-1" to="/userList">
+              <img src={logo} alt="Alexflix" width="170" height="35" />
+            </Link>
             <button
               type="button"
               className="btn-close bg-light"
               data-bs-dismiss="offcanvas"
-              data-bs-target="#navbarSupportedContent"
+              data-bs-target="#admin-navBar"
               aria-label="Close"
             ></button>
           </div>

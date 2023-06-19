@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import "./reviews.css";
@@ -11,8 +13,15 @@ export default function MovieReviews() {
     { id: 5, user: "Samy", review: "طرششششششششششش" },
   ]);
 
-  const [visibleReviews, setVisibleReviews] = useState(5);
   const [newReview, setNewReview] = useState("");
+  const [visibleReviews, setVisibleReviews] = useState(5);
+
+  // useEffect(() => {
+  //   .
+  //   return () => {
+  //     second
+  //   }
+  // }, [third])
 
   const handleViewMore = () => {
     setVisibleReviews(visibleReviews + 5);
@@ -43,7 +52,6 @@ export default function MovieReviews() {
       setNewReview("");
     }
   };
-
   return (
     <div>
       <div id="reviews" className="mt-5">
@@ -77,7 +85,7 @@ export default function MovieReviews() {
                         }
                       ></textarea>
                       <button
-                      id="review-save-btn"
+                        id="review-save-btn"
                         className="btn btn-sm fw-bold"
                         onClick={() =>
                           handleUpdateReview(review.id, review.updatedReview)
@@ -138,7 +146,11 @@ export default function MovieReviews() {
               value={newReview}
               onChange={(e) => setNewReview(e.target.value)}
             ></textarea>
-            <button id="post-review" className="btn fw-bold" onClick={handleAddReview}>
+            <button
+              id="post-review"
+              className="btn fw-bold"
+              onClick={handleAddReview}
+            >
               Post Review
             </button>
           </div>

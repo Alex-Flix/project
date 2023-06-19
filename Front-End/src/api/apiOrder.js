@@ -31,4 +31,15 @@ export const adminGetAllOrders = async () => {
       return error;
     }
   }; 
+
+
+  export const userPostNewOrder = async (data) => {
+    try {
+      const check = await configAxios.post(`/user/order`, data);
+      if (check?.data) return check.data;
+    } catch (error) {
+      return error;
+    }
+  };
+  
   

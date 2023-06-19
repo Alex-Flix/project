@@ -10,11 +10,9 @@ import imgDefault from "../../assets/img/movie-19.jpg";
 import { getAllProducts, searchProduct } from "../../api/apiProduct";
 import { addNewMovie } from "../../api/apiMovies";
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
 
 export default function AddMovie() {
-  const loader = useSelector((state) => state.loader);
-
+  const [loader, setLoader] = useState(true);
   const addMovieSchema = yup.object().shape({
     name: movieValidation.name,
     rate: movieValidation.rate,
@@ -62,16 +60,19 @@ export default function AddMovie() {
   const dataSubmit = (obj) => {
     if (!selectedCategories.length) setSelectCheck(true);
     else {
+      setLoader(true);
       const category = selectedCategories.map((item) => item.value);
       const products = productAddList.map((item) => item._id);
       obj["category"] = category;
       obj["products"] = products;
       addNewMovie(obj).then((data) => {
-        if (data?.message)
+        if (data?.message) {
+          setLoader(false);
           Swal.fire({
             icon: "success",
             title: data.message,
           });
+        }
       });
     }
   };
@@ -82,10 +83,10 @@ export default function AddMovie() {
   }, []);
   return (
     <>
-      <section className="col-md-10 py-5 text-light">
+      <section className="col-xl-10 py-5 text-light">
         <h2 className="pb-2 ms-lg-5">Add Movie</h2>
         <section className="row">
-          <article className="col-lg-3 col-md-4 col-10 mx-auto">
+          <article className="col-lg-3 col-md-4 col-10 mx-auto ">
             <div>
               <img
                 src={img ? img : imgDefault}
@@ -93,48 +94,26 @@ export default function AddMovie() {
                 className="w-100 rounded-3 shadow-sm "
               />
             </div>
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="mt-3 rounded-bottom-0"
-              aria-label="Search"
-              onChange={handleSearch}
-            />
-            <div className="card rounded-top-0 overflow-y-auto h-25">
-              <ul className="list-group list-group-flush ">
-                {(productListSearch.length || productList.length) &&
-                  (productListSearch.length
-                    ? productListSearch
-                    : productList
-                  ).map((item) => (
-                    <li
-                      className="list-group-item d-flex justify-content-between align-items-center my-2"
-                      key={item._id}
-                    >
-                      <img
-                        src={
-                          item.images.length
-                            ? item.images[0].secure_url
-                            : imgDefault
-                        }
-                        alt="img"
-                        className="w-25 rounded-3"
-                      />
-                      <span>{item.name} </span>
-                      <i
-                        className="fa-solid fa-plus cursor text-hover"
-                        onClick={() => addProduct(item)}
-                      ></i>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-            <div className="card my-3 overflow-y-auto h-25">
-              <ul className="list-group list-group-flush ">
-                {productAddList.length
-                  ? productAddList.map((item) => (
+            {productListSearch.length || productList.length ? (
+              <div>
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  className="mt-3 rounded-bottom-0"
+                  aria-label="Search"
+                  onChange={handleSearch}
+                />
+                <div
+                  className="rounded-bottom-3 overflow-y-auto"
+                  style={{ maxHeight: "400px" }}
+                >
+                  <ul className="list-group list-group-flush">
+                    {(productListSearch.length
+                      ? productListSearch
+                      : productList
+                    ).map((item) => (
                       <li
-                        className="list-group-item d-flex justify-content-between align-items-center my-2"
+                        className="list-group-item d-flex justify-content-between align-items-center"
                         key={item._id}
                       >
                         <img
@@ -148,14 +127,55 @@ export default function AddMovie() {
                         />
                         <span>{item.name} </span>
                         <i
-                          className="fa-solid fa-trash cursor text-hover"
-                          onClick={() => deleteProduct(item._id)}
+                          className="fa-solid fa-plus cursor text-hover"
+                          onClick={() => addProduct(item)}
                         ></i>
                       </li>
-                    ))
-                  : ""}
-              </ul>
-            </div>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <div className="vh-100 d-flex align-items-center justify-content-center">
+                <i
+                  className="fas fa-spinner fa-spin fa-3x"
+                  aria-hidden="true"
+                ></i>
+              </div>
+            )}
+
+            {productAddList.length ? (
+              <div
+                className="my-3 overflow-y-auto"
+                style={{ borderRadius: "10px 0 0 10px", maxHeight: "400px" }}
+              >
+                <ul className="list-group list-group-flush">
+                  {productAddList.map((item) => (
+                    <li
+                      className="list-group-item d-flex justify-content-between align-items-center "
+                      key={item._id}
+                    >
+                      <img
+                        src={
+                          item.images.length
+                            ? item.images[0].secure_url
+                            : imgDefault
+                        }
+                        alt="img"
+                        className="w-25 rounded-3"
+                      />
+                      <span>{item.name} </span>
+                      <i
+                        className="fa-solid fa-trash cursor text-hover"
+                        onClick={() => deleteProduct(item._id)}
+                      ></i>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              ""
+            )}
           </article>
           <Formik
             validationSchema={addMovieSchema}
@@ -164,7 +184,7 @@ export default function AddMovie() {
               name: "",
               rate: "",
               type: "",
-              description:"",
+              description: "",
               production_year: "",
               trailer: "",
               poster_image: img,
@@ -182,7 +202,7 @@ export default function AddMovie() {
               <Form
                 noValidate
                 onSubmit={handleSubmit}
-                className="col-lg-6 col-md-7 col-10  mx-auto  pt-md-0 pt-3  "
+                className="col-lg-6 col-md-7 col-10  mx-auto  pt-md-0 pt-4  "
               >
                 <Form.Group className="mb-3" controlId="name">
                   <Form.Label>Name</Form.Label>

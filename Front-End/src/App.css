@@ -374,6 +374,61 @@ body {
   }
 }
 
+.qty .count {
+  /* color: #000; */
+  display: inline-block;
+  /* vertical-align: top; */
+  /* font-size: 20px !important; */
+  background-color: none;
+  /* font-weight: 700; */
+  /* line-height: 30px; */
+  padding: 0 2px;
+  /* min-width: 35px; */
+  text-align: center;
+  user-select: none;
+  outline: none;
+  width: 35px !important;
+
+}
+.qtu .count:focus{
+  outline: none;
+}
+.qtu input:disabled{
+  background-color: transparent !important;
+}
+.qty .plus {
+  cursor: pointer;
+  display: inline-block;
+  /* vertical-align: middle; */
+  color: white;
+  width: 20px;
+  height: 20px;
+  font: 20px/1 Arial,sans-serif;
+  text-align: center;
+  border-radius: 50%;
+  user-select: none;
+  }
+.qty .minus {
+  cursor: pointer;
+  display: inline-block;
+  /* vertical-align: top; */
+  color: white;
+  width: 20px;
+  height: 20px;
+  font: 20px/1 Arial,sans-serif;
+  text-align: center;
+  border-radius: 50%;
+  background-clip: padding-box;
+  user-select: none;
+
+}
+.minus:hover{
+ border: 1px solid black;
+}
+.plus:hover{
+  border: 1px solid black;
+}
+
 .total-price button {
   margin-top: 10px;
 }
@@ -681,13 +736,13 @@ body {
     padding: 10px 30px;
   }
 
-  h1 {
+  /* h1 {
     font-size: 38px;
   }
 
   h2 {
     font-size: 32px;
-  }
+  } */
 
   #product1 .pro {
     width: 100%;

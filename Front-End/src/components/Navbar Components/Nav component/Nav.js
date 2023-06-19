@@ -8,6 +8,7 @@ export function Nav({ positionStyle }) {
   const [isLogedIn, setIsLogedIn] = useState(false);
   const favoriteMovies = useSelector((state) => state.favorites);
   const [isScrolled, setIsScrolled] = useState(false);
+  const totalInCart = useSelector((state)=> state.cart.total);
   const navigate = useNavigate();
   const scrollToTop = () => {
     window.scrollTo(0, 0);
@@ -96,10 +97,10 @@ export function Nav({ positionStyle }) {
 
             <li id="separator" className="nav-item flex-grow-1"></li>
             <li id="lg-bag" className="nav-item position-relative">
-              <NavLink className="nav-link" to={"/cart"}>
+              <NavLink className="nav-link" to={"/store/cart"}>
                 <i className="fa-solid fa-bag-shopping fs-3x" />
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                  3   
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                {totalInCart}  
                 </span>
               </NavLink>
             </li>

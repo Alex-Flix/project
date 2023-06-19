@@ -4,11 +4,11 @@ import { deleteProductById, updateProductById } from "../api/apiProduct";
 export const showProductDetails = (data) => {
   const content = `
       <ul>
-        <li><b>Product Name : </b> ${data.name}</li>
-        <li><b>Category : </b> ${data.category}</li>
-        <li><b>Price : </b> $${data.price}</li>
-        <li><b>Available : </b> ${data.available}</li>
-        <li><b>Description : </b> ${data.description}</li>
+        <li class="py-1"><b>Product Name : </b> ${data.name}</li>
+        <li class="py-1"><b>Category : </b> ${data.category}</li>
+        <li class="py-1"><b>Price : </b> $${data.price}</li>
+        <li class="py-1"><b>Available : </b> ${data.available}</li>
+        <li class="py-1"><b>Description : </b> ${data.description}</li>
       </ul>
     `;
 

@@ -9,17 +9,17 @@ export const showUserDetails = (data) => {
     .join("");
   const content = `
       <ul>
-        <li><b>First Name : </b> ${data.firstName}</li>
-        <li><b>Last Name : </b> ${data.lastName}</li>
-        <li><b>Email : </b> ${data.email}</li>
-        <li><b>Phone : </b> ${data.phone}</li>
-        <li><b>Gender : </b> ${data.gender}</li>
-        <li><b>Age : </b> ${data.age}</li>
-        <li><b>Is Admin : </b> ${data.isAdmin ? "yes" : "no"}</li>
+        <li class="py-1"><b>First Name : </b> ${data.firstName}</li>
+        <li class="py-1"><b>Last Name : </b> ${data.lastName}</li>
+        <li class="py-1"><b>Email : </b> ${data.email}</li>
+        <li class="py-1"><b>Phone : </b> ${data.phone}</li>
+        <li class="py-1"><b>Gender : </b> ${data.gender}</li>
+        <li class="py-1"><b>Age : </b> ${data.age}</li>
+        <li class="py-1"><b>Admin : </b> ${data.isAdmin ? "yes" : "no"}</li>
         ${
           favoritesList.length ?
           `
-        <li>
+        <li class="py-1">
           <b>Favorites : </b>
           <ul>${favoritesList}</ul>
         </li>`

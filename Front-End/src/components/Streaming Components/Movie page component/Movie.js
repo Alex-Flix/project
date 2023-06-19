@@ -3,10 +3,12 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Rating from "../Rating Component/Rating";
 import Modal from "react-bootstrap/Modal";
-import "react-tuby/css/main.css"
+import "react-tuby/css/main.css";
 import { Player } from "react-tuby";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import Reviews from "../Reviews Component/Reviews";
-import "./movie.css"
+import "./movie.css";
 
 export default function MovieDetails() {
   const [movieDetails, setMovieDetails] = useState({});
@@ -34,7 +36,7 @@ export default function MovieDetails() {
             <div className="ratio ratio-16x9">
               <iframe
                 closeButton
-                src="https://www.youtube.com/embed/qEVUtrk8_B4?autoplay=1"
+                src="https://www.youtube.com/embed/sfAc2U20uyg?autoplay=1"
                 title="YouTube video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
@@ -46,17 +48,9 @@ export default function MovieDetails() {
     );
   }
 
-  const handleEnterFullScreen = () => {
-    console.log(movieDetails);
-    const player = playerRef.current;
-    if (player) {
-      player.fsAPI.enter();
-    }
-  };
-
   return (
     <div
-    className="movie-details-container"
+      className="movie-details-container"
       style={{
         backgroundImage: `linear-gradient(rgba(8, 26, 54, 0.8), rgba(8, 26, 54, 0.8)) , url(${movieDetails.cover_image})`,
         minHeight: "100vh",
@@ -73,17 +67,41 @@ export default function MovieDetails() {
           className="movie-card mb-3 cardDetails custom-card my-5"
           style={{ backgroundColor: "transparent" }}
         >
-          <div  className=" row g-0">
-            <div id="poster-container" className="text-center text-lg-start col-lg-4">
+          <div className=" row g-0">
+            <div
+              id="poster-container"
+              className="text-center text-lg-start col-lg-4 position-relative"
+            >
               <img
                 src={`${movieDetails.poster_image}`}
-                className="img-fluid rounded-start h-100"
+                className="img-fluid rounded-start h-100 w-100"
                 alt="..."
               />
+              <div
+                className=" position-absolute top-0 end-0 m-2 "
+                style={{ width: "15%", fontWeight: "bold" }}
+              >
+                <CircularProgressbar
+                  value={movieDetails.rate}
+                  maxValue={10}
+                  text={`${movieDetails.rate}`}
+                  background="true"
+                  styles={buildStyles({
+                    textSize: "2rem",
+                    pathTransitionDuration: 0.5,
+                    pathColor: `#00d0c5`,
+                    textColor: "#00d0c5",
+                    trailColor: "#d6d6d6",
+                    backgroundColor: "rgba(8, 26, 54, 0.8)",
+                  })}
+                />
+              </div>
             </div>
             <div id="movie-data-container" className="ps-3 col-lg-8">
               <div className="card-body">
-                <h1 className="card-title p-3 text-center text-lg-start">{movieDetails.name}</h1>
+                <h1 className="card-title p-3 text-center text-lg-start">
+                  {movieDetails.name}
+                </h1>
                 <div className=" py-2  p-3 my-2">
                   <div className="IconsInDetails-container">
                     {/* <Rating movie={movieDetails} /> */}
@@ -99,7 +117,7 @@ export default function MovieDetails() {
                         }}
                       ></i>
                       <span
-                      className=" text-capitalize"
+                        className=" text-capitalize"
                         style={{
                           fontSize: 20,
                           color: "#00d0c5",
@@ -134,11 +152,19 @@ export default function MovieDetails() {
           <div className="  ">
             {" "}
             <Player
+              keyboardShortcut={{
+                pause: false,
+                forward: true,
+                rewind: true,
+                fullScreen: false,
+                mute: true,
+                subtitle: true,
+              }}
               ref={playerRef}
               src={[
                 {
                   quality: "Full HD",
-                  url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                  url: "http://cdn.glitch.me/cbf2cfb4-aa52-4a1f-a73c-461eef3d38e8/1080.mp4",
                 },
                 {
                   quality: 720,
@@ -163,10 +189,9 @@ export default function MovieDetails() {
               // ]}
               // dimensions={{ width: "80 vw", height: "50 vh" }}
               poster={movieDetails.cover_image}
-              // controls
+              controls
               // keyboard
               fullScreenOnDoubleClick
-              onEnterFullScreen={handleEnterFullScreen}
             />
           </div>
         </div>{" "}

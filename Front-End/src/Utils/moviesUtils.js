@@ -15,16 +15,16 @@ export const showMovieDetails = (data) => {
     .join("");
   const content = `
         <ul>
-          <li><b>Movie Name : </b> ${data.name}</li>
-          <li><b>Type : </b> ${data.type}</li>
-          <li><b>Category : </b> ${data.category.join(" - ")}</li>
-          <li><b>Year : </b> ${data.production_year}</li>
-          <li><b>Rate : </b> ${data.rate}</li>
-          <li><b>Description : </b> ${data.description}</li>
+          <li class="py-1"><b>Movie Name : </b> ${data.name}</li>
+          <li class="py-1"><b>Type : </b> ${data.type}</li>
+          <li class="py-1"><b>Category : </b> ${data.category.join(" - ")}</li>
+          <li class="py-1"><b>Year : </b> ${data.production_year}</li>
+          <li class="py-1"><b>Rate : </b> ${data.rate}</li>
+          <li class="py-1"><b>Description : </b> ${data.description}</li>
           ${
             productList.length
               ? `
-          <li>
+          <li class="py-1">
             <b>Products : </b>
             <ul>${productList}</ul>
           </li>`
@@ -37,6 +37,7 @@ export const showMovieDetails = (data) => {
     title: "Movie Details",
     html: content,
     icon: "info",
+    width: '1000px'
   });
 };
 

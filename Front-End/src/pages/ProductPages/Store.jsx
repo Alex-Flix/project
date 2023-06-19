@@ -26,7 +26,6 @@ export default function Store() {
     let newQuery = { ...query };
     newQuery[e.target.name] = e.target.value;
     setQuery(newQuery);
-    console.log(newQuery);
     let string = "";
     for (let item of ["movie", "minPrice", "maxPrice", "category"]) {
       if (newQuery[item] && newQuery[item] !== "max")
@@ -64,7 +63,6 @@ export default function Store() {
       category: "",
     });
     setProdcts(products);
-    console.log(query);
   }
 
   async function searchProducts() {

@@ -49,7 +49,7 @@ export default function MoviesList() {
     });
   };
 
-  const updateMovie = (obj,objData) => {
+  const updateMovie = (obj, objData) => {
     updateMovieData({
       obj,
       movieList,
@@ -57,7 +57,7 @@ export default function MoviesList() {
       movieListSearch,
       setMovieListSearch,
       setShow,
-      objData
+      objData,
     });
   };
 
@@ -69,10 +69,10 @@ export default function MoviesList() {
 
   return (
     <>
-      <section className="col-md-10 py-5 text-light">
+      <section className="col-xl-10 py-5 text-light">
         <h2 className="pb-2 ">Movies List</h2>
         <Form
-          className="d-flex col-lg-4 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
+          className="d-flex col-xl-4 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
           onSubmit={handleSearch}
         >
           <Form.Control
@@ -87,59 +87,59 @@ export default function MoviesList() {
             Search
           </Button>
         </Form>
-        <div className="row row-cols-1">
-          <article className="table-header row d-lg-flex d-none px-lg-3 pb-4 pt-2 col-lg-11 mx-auto border border-1 border-bottom-0 bg-blue-dark">
-            <p className="lead col">Poster</p>
-            <p className="lead col">Name</p>
-            <p className="lead col">Category</p>
-            <p className="lead col">Year</p>
-            <p className="lead col text-center">Rate</p>
-            <p className="lead col text-center">Products</p>
-            <p className="lead col text-center">Action</p>
-          </article>
-          {(movieListSearch.length || movieList.length) &&
-            (movieListSearch.length ? movieListSearch : movieList).map(
+        {movieListSearch.length || movieList.length ? (
+          <div className="row row-cols-1">
+            <article className="table-header row d-xl-flex d-none px-xl-3 pb-4 pt-2 col-lg-11 mx-auto border border-1 border-bottom-0 bg-blue-dark">
+              <p className="lead col">Poster</p>
+              <p className="lead col">Name</p>
+              <p className="lead col">Category</p>
+              <p className="lead col">Year</p>
+              <p className="lead col text-center">Rate</p>
+              <p className="lead col text-center">Products</p>
+              <p className="lead col text-center">Action</p>
+            </article>
+            {(movieListSearch.length ? movieListSearch : movieList).map(
               (item, index) => (
                 <article
                   className={
-                    "row align-items-center col-lg-11 col-10 mx-auto p-lg-3 p-5 border border-1 list-hover " +
+                    "row align-items-center col-xl-11 col-10 mx-auto p-lg-3 p-5 border border-1 list-hover " +
                     (index % 2 === 1 && "bg-blue-dark")
                   }
                   key={item._id}
                 >
-                  <div className="col-lg col-12 py-lg-0 py-3 row align-items-center">
-                    <p className="lead d-lg-none d-block col-6">Poster</p>
-                    <div className="col-lg col-6 w-25 ms-lg-0 ms-auto">
+                  <div className="col-xl col-12 py-xl-0 py-3 row align-items-center">
+                    <p className="lead d-xl-none d-block col-6">Poster</p>
+                    <div className="col-xl col-6 w-25 ms-xl-0 ms-auto text-xl-start text-end">
                       <img
                         src={
                           item?.poster_image ? item.poster_image : imgDefault
                         }
                         alt="Profile"
-                        className="w-100 rounded-3"
+                        className="col-xl-8 col-lg-6 col-12 rounded-3"
                       />
                     </div>
                   </div>
-                  <div className="col-lg col-12 row">
-                    <p className="lead d-lg-none d-block col-6">Name</p>
-                    <p className="col-lg col-6 text-lg-start text-end">
+                  <div className="col-xl col-12 row">
+                    <p className="lead d-xl-none d-block col-6">Name</p>
+                    <p className="col-xl col-6 text-xl-start text-end">
                       {item.name}
                     </p>
                   </div>
-                  <div className="col-lg col-12 row">
-                    <p className="lead d-lg-none d-block col-6">Category</p>
-                    <p className="col-lg col-6 text-lg-start text-end">
+                  <div className="col-xl col-12 row">
+                    <p className="lead d-xl-none d-block col-6">Category</p>
+                    <p className="col-xl col-6 text-xl-start text-end">
                       {item.category.length ? item.category.join(" - ") : ""}
                     </p>
                   </div>
-                  <div className="col-lg col-12 row">
-                    <p className="lead d-lg-none d-block col-6">Year</p>
-                    <p className="col-lg col-6 text-lg-start text-end">
+                  <div className="col-xl col-12 row">
+                    <p className="lead d-xl-none d-block col-6">Year</p>
+                    <p className="col-xl col-6 text-xl-start text-end">
                       {item.production_year}
                     </p>
                   </div>
-                  <div className="col-lg col-12 row">
-                    <p className="lead d-lg-none d-block col-6">Rate</p>
-                    <p className="col-lg col-6 h4 text-lg-center text-end">
+                  <div className="col-xl col-12 row">
+                    <p className="lead d-xl-none d-block col-6">Rate</p>
+                    <p className="col-xl col-6 h4 text-xl-center text-end">
                       <span
                         className={
                           "badge " +
@@ -150,9 +150,9 @@ export default function MoviesList() {
                       </span>
                     </p>
                   </div>
-                  <div className="col-lg col-12 row">
-                    <p className="lead d-lg-none d-block col-6">Products</p>
-                    <p className="col-lg col-6 h4 text-lg-center text-end ">
+                  <div className="col-xl col-12 row">
+                    <p className="lead d-xl-none d-block col-6">Products</p>
+                    <p className="col-xl col-6 h4 text-xl-center text-end ">
                       <span
                         className={
                           "badge  " +
@@ -163,9 +163,9 @@ export default function MoviesList() {
                       </span>
                     </p>
                   </div>
-                  <div className="col-lg col-12 row">
-                    <p className="lead d-lg-none d-block col-6">Action</p>
-                    <p className="col-lg col-6 text-lg-center text-end">
+                  <div className="col-xl col-12 row">
+                    <p className="lead d-xl-none d-block col-6">Action</p>
+                    <p className="col-xl col-6 text-xl-center text-end d-flex flex-nowrap justify-content-xl-center justify-content-end">
                       <i
                         className="fa-solid fa-eye  me-2 p-2 bg-info rounded-2 cursor text-red"
                         onClick={() => showMovieDetails(item)}
@@ -183,7 +183,12 @@ export default function MoviesList() {
                 </article>
               )
             )}
-        </div>
+          </div>
+        ) : (
+          <div className="vh-100 d-flex align-items-center justify-content-center">
+            <i className="fas fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+          </div>
+        )}
       </section>
       <MoviesModule
         show={show}

@@ -17,7 +17,7 @@ export default function Nav() {
                 <li><Link to="">About</Link></li>
                 <li><Link to="">Contact</Link></li>
                 <li id="lg-bag">
-                    <Link to="/cart"><i className="fa-solid fa-bag-shopping fs-3x"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                    <Link to="/cart"><i className="fa-solid fa-bag-shopping fs-3x"></i><span className="position-absolute top-0 start-100 translate-middle badge rounded-pill">
                 {totalInCart}
               </span></Link>
                 </li>

@@ -14,23 +14,23 @@ export const showOrderDetails = (data) => {
     .join("");
   const content = `
       <ul>
-        <li><b>User Name : </b> ${
+        <li class="py-1"><b>User Name : </b> ${
           data.user_id.firstName + " " + data.user_id.lastName
         }</li>
-        <li><b>Address : </b> ${
+        <li class="py-1"><b>Address : </b> ${
           data.address.building +
           " " +
           data.address.street +
           " - " +
           data.address.city
         }</li>
-        <li><b>Contact : </b> ${data.contact_phone}</li>
-        <li><b>Total_price : </b> $${data.total_price}</li>
-        <li><b>Status : </b> ${data.status}</li>
+        <li class="py-1"><b>Contact : </b> ${data.contact_phone}</li>
+        <li class="py-1"><b>Total_price : </b> $${data.total_price}</li>
+        <li class="py-1"><b>Status : </b> ${data.status}</li>
         ${
           productsList.length
             ? `
-        <li>
+        <li class="py-1">
           <b>Products : </b>
           <ul>${productsList}</ul>
         </li>`
