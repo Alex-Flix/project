@@ -3,7 +3,6 @@ const cloudinary = require("../Middlewares/services/cloudinary");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../Middlewares/services/sendEmail");
 const jwt = require("jsonwebtoken");
-const otpGenerator = require("otp-generator");
 
 const User = model("users");
 const Review = model("reviews");
@@ -24,7 +23,7 @@ exports.updateUser = (req, res, next) => {
 
   User.updateOne({ _id }, { $set: { firstName, lastName, phone, gender, age } })
     .then((data) => {
-      if (!data.modifiedCount) throw new Error("Update Fail");
+      // if (!data.modifiedCount) throw new Error("Update Fail");
       res.status(200).json({ message: "Done" });
     })
     .catch((err) => next(err));
@@ -33,11 +32,13 @@ exports.updateUser = (req, res, next) => {
 exports.addProfileImgForUser = (req, res, next) => {
   const { _id } = req.user;
   const { path } = req.file;
+  const { _id: userId } = req.body;
+  const id = userId ? userId : _id;
   cloudinary.uploader
     .upload(path, { folder: "img/user/profile" })
     .then(({ secure_url, public_id }) => {
       const profile_img = { secure_url, public_id };
-      return User.findByIdAndUpdate({ _id }, { $set: { profile_img } });
+      return User.findByIdAndUpdate({ _id: id }, { $set: { profile_img } });
     })
     .then((data) => {
       if (!data) throw new Error("Update Fail");
@@ -111,11 +112,11 @@ exports.deleteFavoritesUser = (req, res, next) => {
 
 exports.changePasswordUser = (req, res, next) => {
   const { _id } = req.user;
-  const { oldPassword, password } = req.body;
+  const { currentPassword, password } = req.body;
   User.findById({ _id }, { password: 1 })
     .then((data) => {
       if (!data) throw new Error("User not found");
-      const checkPassword = bcrypt.compareSync(oldPassword, data.password);
+      const checkPassword = bcrypt.compareSync(currentPassword, data.password);
       if (!checkPassword) throw new Error("invalid password");
       const hashPassword = bcrypt.hashSync(password, +process.env.BUFFER);
       return User.updateOne({ _id }, { $set: { password: hashPassword } });
@@ -132,16 +133,29 @@ Admin
 */
 
 exports.getAllUsers = (req, res, next) => {
+  const { page } = req.query;
+  if (!page || page < 0) page = 1;
+  const limit = 12;
+  const skip = (page - 1) * limit;
   User.find({}, { password: 0, confirmation: 0 })
-    .then((data) => {
+    .sort({ firstName: 1, lastName: 1 })
+    .skip(skip)
+    .limit(limit)
+    .then(async (data) => {
       if (!data.length) throw new Error("Users not found");
-      res.status(200).json({ message: "Done", data });
+      let totalPages = await User.countDocuments({});
+      totalPages = Math.ceil(totalPages / limit);
+      res.status(200).json({ message: "Done", data, totalPages });
     })
     .catch((err) => next(err));
 };
 
 exports.searchUser = (req, res, next) => {
   let { name } = req.params;
+  const { page } = req.query;
+  if (!page || page < 0) page = 1;
+  const limit = 12;
+  const skip = (page - 1) * limit;
   name = name.split(" ");
   if (!name[1]) name[1] = "";
   const first = {
@@ -154,9 +168,14 @@ exports.searchUser = (req, res, next) => {
   };
 
   User.find({ $or: [first, last] }, { password: 0, confirmation: 0 })
-    .then((data) => {
+    .sort({ firstName: 1, lastName: 1 })
+    .skip(skip)
+    .limit(limit)
+    .then(async (data) => {
       if (!data.length) throw new Error("User not found");
-      res.status(200).json({ message: "Done", data });
+      let totalPages = await User.countDocuments({});
+      totalPages = Math.ceil(totalPages / limit);
+      res.status(200).json({ message: "Done", data, totalPages });
     })
     .catch((err) => next(err));
 };
@@ -164,13 +183,10 @@ exports.searchUser = (req, res, next) => {
 exports.addUser = (req, res, next) => {
   const { firstName, lastName, email, phone, gender, age, isAdmin } = req.body;
 
-  const otp = otpGenerator.generate(6, {
-    digits: true,
-    alphabets: true,
-    upperCase: true,
-    specialChars: true,
-  });
-  const hashPassword = bcrypt.hashSync(otp, +process.env.BUFFER);
+
+  const password = "Alex@"+Math.floor(Math.random() * 101);
+
+  const hashPassword = bcrypt.hashSync(password, +process.env.BUFFER);
 
   const userData = new User({
     firstName,
@@ -181,10 +197,9 @@ exports.addUser = (req, res, next) => {
     gender,
     age,
     isAdmin,
-    favorites, // this for testing
   });
   const id = jwt.sign({ id: userData._id }, process.env.KEY);
-  const confirmationLink = `${req.protocol}://${req.headers.host}/confirmation/${id}`;
+  const confirmationLink = `${process.env.Url_FrontEnd}/login/?id=${id}`;
   sendEmail
     .sendMessage({
       to: email,
@@ -192,15 +207,11 @@ exports.addUser = (req, res, next) => {
       html: sendEmail.confirmationEmailWithPassword(
         "confirm your email address and send your Password",
         confirmationLink,
-        otp
+        password
       ),
     })
-    .then(() => userData.save());
-  userData
-    .save()
-    .then(() =>
-      res.status(201).json({ message: "Please check your email address" })
-    )
+    .then(() => userData.save())
+    .then((data) => res.status(201).json({ message: "Done", data }))
     .catch((error) => next(error));
 };
 

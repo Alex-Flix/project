@@ -1,14 +1,9 @@
 const { param, body } = require("express-validator");
 
 module.exports.addNewOrder = [
-  body("_id")
-    .isInt()
-    .withMessage("id should be integer")
-    .notEmpty()
-    .withMessage("Order should have an id"),
   body("user_id")
     .isMongoId()
-    .withMessage("id should be ObjectId")
+    .withMessage("id should be mongoId")
     .notEmpty()
     .withMessage("user_id shouldn't be empty"),
   body("products")
@@ -22,8 +17,8 @@ module.exports.addNewOrder = [
     .notEmpty()
     .withMessage("product shouldn't be empty"),
   body("products.*._id")
-    .isInt()
-    .withMessage("id should be integer")
+    .isMongoId()
+    .withMessage("product id should be integer")
     .notEmpty()
     .withMessage("product id shouldn't be empty"),
   body("products.*.name")
@@ -106,20 +101,15 @@ module.exports.updateOrder = [
 ];
 
 module.exports.deleteOrder = [
-  body("id")
-    .isInt()
-    .withMessage("order id should be integer")
+  body("_id")
+    .isMongoId()
+    .withMessage("order id should be mongoId")
     .notEmpty()
     .withMessage("you should enter the order id"),
-  body("user_id")
-    .isMongoId()
-    .withMessage("user id should be mongo id")
-    .notEmpty()
-    .withMessage("you should enter the user id"),
 ];
 
-module.exports.paramIntegerCheck = param("id")
-  .isInt()
-  .withMessage("id should be integer")
+module.exports.paramMongoIdCheck = param("_id")
+  .isMongoId()
+  .withMessage("id should be mongoId")
   .notEmpty()
   .withMessage("id shouldn't be empty");

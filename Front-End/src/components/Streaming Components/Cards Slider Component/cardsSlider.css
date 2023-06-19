@@ -1,0 +1,45 @@
+.movie-slider > .title {
+  color: var(--textColor);
+}
+
+.alice-carousel {
+  position: relative;
+}
+.alice-carousel > .alice-carousel__prev-btn,
+.alice-carousel > .alice-carousel__next-btn {
+  width: fit-content;
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+.alice-carousel > .alice-carousel__prev-btn {
+  left: 0;
+}
+.alice-carousel > .alice-carousel__next-btn {
+  right: 0;
+}
+
+.alice-carousel > .alice-carousel__prev-btn>p ,
+.alice-carousel > .alice-carousel__next-btn>p{
+    /* text-shadow: ; */
+}
+.alice-carousel > .alice-carousel__prev-btn ,
+.alice-carousel > .alice-carousel__next-btn {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  padding-bottom: 130px;
+  color: var(--textColor);
+}
+
+.alice-carousel > .alice-carousel__prev-btn:hover,
+.alice-carousel > .alice-carousel__next-btn:hover {
+  cursor: pointer;
+  background-color: var(--scrollNavColor);
+  transition: all 0.5s;
+}
+.alice-carousel > .alice-carousel__prev-btn:hover > p,
+.alice-carousel > .alice-carousel__next-btn:hover > p {
+  color: var(--specialColor) !important;
+  transition: all 0.5s;
+}

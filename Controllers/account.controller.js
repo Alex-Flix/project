@@ -20,7 +20,7 @@ exports.register = (req, res, next) => {
   const id = jwt.sign({ id: userData._id }, process.env.KEY, {
     expiresIn: "1h",
   });
-  const confirmationLink = `${req.protocol}://${req.headers.host}/confirmation/${id}`;
+  const confirmationLink = `${process.env.Url_FrontEnd}/login/?id=${id}`;
   sendEmail
     .sendMessage({
       to: email,
@@ -47,7 +47,7 @@ exports.login = (req, res, next) => {
         const id = jwt.sign({ id: data._id }, process.env.KEY, {
           expiresIn: "1h",
         });
-        const confirmationLink = `${req.protocol}://${req.headers.host}/confirmation/${id}`;
+        const confirmationLink = `${process.env.Url_FrontEnd}/login/?id=${id}`;
         await sendEmail.sendMessage({
           to: email,
           subject: "confirmationEmail",
@@ -89,7 +89,7 @@ exports.confirmation = (req, res, next) => {
 };
 
 exports.forgetPassword = (req, res, next) => {
-  const { email } = req.body;
+  const { email } = req.params;
   User.findOne({ email })
     .then((data) => {
       if (!data) throw new Error("your email not exist ");
@@ -98,7 +98,7 @@ exports.forgetPassword = (req, res, next) => {
         expiresIn: "1h",
       });
 
-      const confirmationLink = `${req.protocol}://${req.headers.host}/forgetPassword/${id}`;
+      const confirmationLink = `${process.env.Url_FrontEnd}/resetPassword/${id}`;
       return sendEmail.sendMessage({
         to: email,
         subject: "forgetPassword",

@@ -1,0 +1,32 @@
+#carouselExampleSlidesOnly {
+  position: relative;
+  z-index: 1;
+}
+#carouselExampleSlidesOnly > .text {
+  transform: translateY(-50%);
+  z-index: 999;
+  color: var(--textColor);
+}
+
+.text > #welcome-msg > span {
+  color: var(--specialColor);
+}
+
+#carouselExampleSlidesOnly {
+  position: relative;
+  z-index: 1;
+}
+#carouselExampleSlidesOnly::after {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: "";
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.alice-carousel__stage > .alice-carousel__stage-item {
+  width: auto !important;
+}

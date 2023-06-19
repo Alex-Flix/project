@@ -11,7 +11,7 @@ const addressSchema = new mongoose.Schema(
 
 const productSchema = new mongoose.Schema(
   {
-    id: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+    _id: { type: mongoose.Schema.Types.ObjectId, ref: "products" },
     name: String,
     price: Number,
     quantity: Number,

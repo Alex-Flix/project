@@ -1,0 +1,10 @@
+#nav-auth {
+  color: var(--specialColor) !important;
+}
+#nav-auth > a {
+  color: var(--textColor) !important;
+}
+#nav-auth > a:hover {
+  color: var(--specialColor) !important;
+  transition: all 0.3s;
+}

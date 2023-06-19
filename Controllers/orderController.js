@@ -18,11 +18,11 @@ module.exports.addNewOrder = async function (req, res, next) {
     else if (a._id < b._id) return -1;
     else return 0;
   });
-
+ const { _id: user_id } = req.user;
   let data = req.checkedProducts;
   //creating order after passing all checks
   let object = {
-    user_id: req.body.user_id,
+    user_id,
     products: req.body.products,
     total_price: req.body.total_price,
     address: req.body.address,
@@ -102,9 +102,10 @@ module.exports.deleteOrderById = function (req, res, next) {
 
 module.exports.adminGetAllOrders = function (req, res, next) {
   Order.find()
+    .populate([{ path: "user_id", select: { firstName: 1, lastName: 1 } }])
     .then((data) => {
-      if (!data) throw new Error("there is no orders placed yet");
-      res.status(200).json(data);
+      if (!data.length) throw new Error("there is no orders placed yet");
+      res.status(200).json({ message: "Done", data });
     })
     .catch((error) => next(error));
 };
@@ -162,16 +163,7 @@ module.exports.adminUpdateOrderById = function (req, res, next) {
   )
     .then((data) => {
       if (!data) throw new Error("Order Doesn't Exist");
-      res.status(200).json(data);
+      res.status(200).json({ message: "Done", data });
     })
     .catch((error) => next(error));
 };
-// module.exports.adminDeleteAllUserOrders = function(req,res,next){
-
-//   Order.deleteMany({user_id:req.params.id})
-//     .then((data)=>{
-//         if(!data) throw new Error("User dosen't have Orders")
-//         res.status(200).json(data)
-//     })
-//     .catch(error=>next(error))
-// }

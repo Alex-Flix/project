@@ -1,0 +1,30 @@
+.list-group-item {
+  background-color: rgba(8, 26, 54, 0.3) !important;
+  border: none !important;
+}
+
+.reviewListContainer {
+  font-size: 0.8rem;
+}
+
+.list-group-item h5,
+.list-group-item p {
+  font-size: 0.9rem;
+}
+
+#reviews>.list-group>li{
+  color: var(--textColor);
+}
+
+#reviews>.list-group>li .review-btns>button{
+  color: var(--specialColor) !important;
+}
+#reviews #review-save-btn,#add-review-container #post-review{
+  color: var(--bgColor);
+  background-color: var(--specialColor);
+}
+
+#reviews #review-save-btn:hover,#add-review-container #post-review:hover{
+  color: var(--textColor);
+
+}

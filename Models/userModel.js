@@ -25,7 +25,7 @@ const userSchema = new Schema({
   lastName: String,
   email: String,
   password: String,
-  phone: Number,
+  phone: String,
   gender: {
     type: String,
     enum: ["male", "female"],

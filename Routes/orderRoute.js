@@ -19,26 +19,18 @@ router
 router.get("/admin/order/", authorization, controller.adminGetAllOrders);
 
 router
-  .route("/admin/order/:id")
+  .route("/admin/order/:_id")
   .all(authorization)
-  .get(dataSchema.paramIntegerCheck, validator, controller.adminGetOrderById)
+  .get(dataSchema.paramMongoIdCheck, validator, controller.adminGetOrderById)
   .patch(
-    dataSchema.paramIntegerCheck,
+    dataSchema.paramMongoIdCheck,
     validator,
     controller.adminUpdateOrderById
   )
   .delete(
-    dataSchema.paramIntegerCheck,
+    dataSchema.paramMongoIdCheck,
     validator,
     controller.adminDeleteOrderById
   );
-
-// router
-//   .route("/user/:id/order")
-//   .delete(
-//     dataSchema.paramIntegerCheck,
-//     validator,
-//     controller.adminDeleteAllUserOrders
-//   );
 
 module.exports = router;

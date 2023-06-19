@@ -30,7 +30,7 @@ exports.confirmationEmail=(msg,link)=>`
   <body>
     <h1>Welcome to AlexFlix</h1>
     <p>Please click the button below to ${msg}:</p>
-    <a href="${link}">
+    <a href="${link}" target="_blank">
       Confirm Email
     </a>
   </body>
@@ -44,7 +44,7 @@ exports.confirmationEmailWithPassword=(msg,link,password)=>`
     <h1>Welcome to AlexFlix</h1>
     <p>Please click the button below to ${msg}:</p>
     <h2>${password}</h2>
-    <a href="${link}">
+    <a href="${link}" target="_blank">
       Confirm Email
     </a>
   </body>

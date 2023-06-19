@@ -34,7 +34,7 @@ connect(process.env.Atlas_URL)
 app.use(express.json());
 
 app.use(accountRouter);
-// app.use(authentication);
+app.use(authentication);
 app.use(userRouter);
 app.use(movieRoute);
 app.use(orderRoute);

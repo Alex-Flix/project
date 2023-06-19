@@ -16,7 +16,11 @@ exports.getAllProducts = async function (request, response, next) {
       .skip(skip)
       .limit(limit);
     if (allProducts.length == 0) throw new Error("No Products exist");
-    response.status(200).json({ page, allProducts });
+    let totalPages = await Product.countDocuments({});
+    totalPages = Math.ceil(totalPages / limit);
+    response
+      .status(200)
+      .json({ message: "Done", page, allProducts, totalPages });
   } catch (error) {
     next(error);
   }
@@ -26,7 +30,6 @@ exports.getAllProducts = async function (request, response, next) {
 exports.createProduct = async (request, response, next) => {
   try {
     const { name, price, description, available, category } = request.body;
-
     const images = [];
     for (const { path } of request.files) {
       const { secure_url, public_id } = await cloudinary.uploader.upload(path, {
@@ -45,7 +48,7 @@ exports.createProduct = async (request, response, next) => {
 
     // Save the product to the database
     const newProduct = await product.save();
-    response.status(201).json(newProduct);
+    response.status(201).json({ message: "Done", newProduct });
   } catch (error) {
     next(error);
   }
@@ -114,7 +117,7 @@ exports.searchProduct = async function (request, response, next) {
     } else {
       const products = await Product.find(query);
       if (products.length == 0) throw new Error("No Product exist");
-      response.status(200).json(products);
+      response.status(200).json({ message: "Done", products });
     }
   } catch (error) {
     next(error);
@@ -138,7 +141,7 @@ exports.updateProductById = async function (request, response, next) {
 
     if (!product) throw new Error("No product exist by this ID");
 
-    response.status(200).json(product);
+    response.status(200).json({ message: "Done", product });
   } catch (error) {
     next(error);
   }
@@ -170,7 +173,7 @@ exports.deleteProductById = async function (request, response, next) {
       }
     }
 
-    response.status(200).json({ message: `Done`, product });
+    response.status(200).json({ message: "Done", product });
   } catch (error) {
     next(error);
   }

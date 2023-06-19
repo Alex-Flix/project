@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const Movie = mongoose.model("movies");
 const User = mongoose.model("users");
 const Review = mongoose.model("reviews");
+const Product = mongoose.model("products");
 
 exports.getAllMovies = async function (request, response, next) {
   try {
-    const allMovies = await Movie.find();
+    const allMovies = await Movie.find()
+    .populate([{ path: "products", select: { name: 1, price: 1,available:1 ,images:1} }]);
     if (allMovies.length == 0) throw new Error("No Movies exist");
     response.status(200).json({ message: "Done", data: allMovies });
   } catch (error) {
@@ -23,8 +25,9 @@ exports.addNewMovie = async function (request, response, next) {
       products,
       production_year,
       trailer,
-      poster,
+      poster_image,
       videos,
+      description
     } = request.body;
     // Check That Product Id Exist in Products Collection !
     const data = await Product.find({ _id: { $in: products } });
@@ -41,8 +44,9 @@ exports.addNewMovie = async function (request, response, next) {
       products,
       production_year,
       trailer,
-      poster,
+      poster_image,
       videos,
+      description
     });
     await movie.save();
     response.status(200).json({ message: "Done", data: movie });

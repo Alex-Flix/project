@@ -11,7 +11,7 @@ exports.addMoviesArray = [
     .isNumeric()
     .withMessage("production_year should be Number"),
   body("trailer").isString().withMessage("trailer should be String"),
-  body("poster").isString().withMessage("poster should be String"),
+  body("poster_image").isString().withMessage("poster should be String"),
   body("videos").isString().withMessage("videos should be String"),
 ];
 exports.updateMoviesArray = [
@@ -25,7 +25,7 @@ exports.updateMoviesArray = [
     .isNumeric()
     .withMessage("production_year should be Number"),
   body("trailer").optional().isString().withMessage("trailer should be String"),
-  body("poster").optional().isString().withMessage("poster should be String"),
+  body("poster_image").optional().isString().withMessage("poster should be String"),
   body("videos").optional().isString().withMessage("videos should be String"),
 ];
 

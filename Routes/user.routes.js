@@ -4,10 +4,10 @@ const { multerData, formats } = require("../Middlewares/services/multer");
 const validate = require("../Middlewares/validation/validate");
 const { authorization } = require("../Middlewares/auth");
 const moviesExists = require("../Middlewares/services/moviesExists");
-const userValiation = require("../Middlewares/validation/userValiation");
-const {
-  forgetPasswordValidation,
-} = require("../Middlewares/validation/accountValidation");
+const deleteOrdersUser = require("../Middlewares/services/deleteOrdersUser");
+const userValidation = require("../Middlewares/validation/userValidation");
+const {forgetPasswordValidation} = require("../Middlewares/validation/accountValidation");
+const checkEmail = require("../Middlewares/services/uniqueEmail");
 
 const router = Router();
 
@@ -16,24 +16,25 @@ router
   .get(userController.getUserData)
   .post(
     authorization,
-    userValiation.addValidate,
+    checkEmail,
+    userValidation.addValidate,
     validate,
     userController.addUser
   ) //send mail to user Admin
-  .patch(userValiation.updateValidate, validate, userController.updateUser)
-  .delete(userController.deleteUser);
+  .patch(userValidation.updateValidate, validate, userController.updateUser)
+  .delete(deleteOrdersUser,userController.deleteUser);
 
 router
   .route("/user/favorites")
   .get(userController.getFavoritesUser)
   .patch(
     moviesExists,
-    userValiation.addFavoriteValidation,
+    userValidation.addFavoriteValidation,
     validate,
     userController.addFavoritesUser
   )
   .delete(
-    userValiation.deleteFavoriteValidation,
+    userValidation.deleteFavoriteValidation,
     validate,
     userController.deleteFavoritesUser
   );

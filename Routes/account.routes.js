@@ -20,7 +20,7 @@ router.post(
   accountController.login
 );
 router.get("/confirmation/:id", accountController.confirmation);
-router.get("/forgetPassword", accountController.forgetPassword); //sent email to get id
+router.get("/forgetPassword/:email", accountController.forgetPassword); //sent email to get id
 router.patch(
   "/forgetPassword/:id",
   accountValidation.forgetPasswordValidation,
