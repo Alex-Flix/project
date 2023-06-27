@@ -71,3 +71,9 @@
 .fadeIn {
   animation-name: fadeIn;
 }
+#movie-details-page .movie-slider{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-top: 3rem!important;
+    margin-bottom: 3rem!important;
+}

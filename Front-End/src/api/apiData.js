@@ -71,6 +71,7 @@ export const getUserData = async () => {
     return error;
   }
 };
+
 export const updateUser = async ( data) => {
   try {
     const check = await configAxios.patch("user", data);
@@ -121,6 +122,16 @@ export const addUser = async (data) => {
 export const softDeleteUser = async (id) => {
   try {
     const check = await configAxios.delete(`users/${id}`);
+    if (check?.data) return check.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const deleteUser = async () => {
+  try {
+    const check = await configAxios.delete("user");
     if (check?.data) return check.data;
   } catch (error) {
     return error;

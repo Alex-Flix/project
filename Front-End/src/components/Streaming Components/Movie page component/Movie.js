@@ -9,18 +9,68 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import Reviews from "../Reviews Component/Reviews";
 import "./movie.css";
-
+import { CardsSlider } from "../../Streaming Components//Cards Slider Component/CardsSlider";
+import { searchProduct, getProductById } from "./../../../api/apiEcommerce";
+import { getMovie } from "./../../../api/apiMovies";
+import SeriesHandler from "../SeriesHandling/SeriesHandler";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToList,
+  getAllFav,
+  removeFromList,
+} from "../../../store/Slice/videosSlice";
+import { addToFavorites, deleteFromFavorites } from "../../../api/apiStream";
+import { faV } from "@fortawesome/free-solid-svg-icons";
 export default function MovieDetails() {
+  const favLoader = useSelector((state) => state.favLoader);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
+  const [products, setProducts] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const allVids = useSelector((state) => state.videos);
+  const favorites = [...allVids.favorites];
+  const dispatch = useDispatch();
+  const [typing, setTyping] = useState(true);
+
   const params = useParams();
   const playerRef = useRef(null);
   useEffect(() => {
-    axios
-      .get(`https://project-pjo4l2v44-alex-flix.vercel.app/movies/${params.id}`)
-      .then((res) => setMovieDetails(res.data.data))
-      .catch((err) => console.log(err));
+    getMoviedetails();
+    if (favorites.length === 0) dispatch(getAllFav());
   }, []);
+
+  useEffect(() => {
+    let isMovieFav = favorites.find((obj) => obj.id === movieDetails._id);
+    if (isMovieFav) setIsFavorite(true);
+  }, [movieDetails, favorites]);
+  async function getMoviedetails() {
+    getMovie(params.id)
+      .then((res) => {
+        setMovieDetails(res.data);
+        return res.data;
+      })
+      .then((movie) => {
+        setProducts(movie.products);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const addToFav = function (e) {
+    e.stopPropagation();
+    if (!isFavorite) {
+      addToFavorites(movieDetails._id).then((res) => {
+        setIsFavorite(true);
+        //dispatch(addToList(movieDetails));
+      });
+    } else {
+      deleteFromFavorites(movieDetails._id).then((res) => {
+        setIsFavorite(false);
+        dispatch(removeFromList(movieDetails));
+      });
+    }
+  };
 
   function MyVerticallyCenteredModal(props) {
     return (
@@ -36,7 +86,7 @@ export default function MovieDetails() {
             <div className="ratio ratio-16x9">
               <iframe
                 closeButton
-                src="https://www.youtube.com/embed/sfAc2U20uyg?autoplay=1"
+                src={`${movieDetails.trailer}?autoplay=1`}
                 title="YouTube video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
@@ -47,10 +97,10 @@ export default function MovieDetails() {
       </div>
     );
   }
-
   return (
     <div
-      className="movie-details-container"
+      id="movie-details-page"
+      className="movie-details-container position-relative"
       style={{
         backgroundImage: `linear-gradient(rgba(8, 26, 54, 0.8), rgba(8, 26, 54, 0.8)) , url(${movieDetails.cover_image})`,
         minHeight: "100vh",
@@ -62,7 +112,15 @@ export default function MovieDetails() {
         alignItems: "center",
       }}
     >
-      <div className=" container">
+      <div
+        className="container"
+        onKeyDown={(e) => {
+          if (e.key === " " && e.target.localName === "div") {
+            setTyping(true);
+          }
+        }}
+        tabIndex={0}
+      >
         <div
           className="movie-card mb-3 cardDetails custom-card my-5"
           style={{ backgroundColor: "transparent" }}
@@ -74,17 +132,18 @@ export default function MovieDetails() {
             >
               <img
                 src={`${movieDetails.poster_image}`}
-                className="img-fluid rounded-start h-100 w-100"
+                className="img-fluid rounded-start w-100 "
+                style={{ maxHeight: "90vh" }}
                 alt="..."
               />
               <div
-                className=" position-absolute top-0 end-0 m-2 "
+                className=" position-absolute top-0 end-0 m-3  "
                 style={{ width: "15%", fontWeight: "bold" }}
               >
                 <CircularProgressbar
-                  value={movieDetails.rate}
+                  value={Math.round(movieDetails.rate * 10) / 10}
                   maxValue={10}
-                  text={`${movieDetails.rate}`}
+                  text={`${Math.round(movieDetails.rate * 10) / 10 || 0}`}
                   background="true"
                   styles={buildStyles({
                     textSize: "2rem",
@@ -102,30 +161,52 @@ export default function MovieDetails() {
                 <h1 className="card-title p-3 text-center text-lg-start">
                   {movieDetails.name}
                 </h1>
-                <div className=" py-2  p-3 my-2">
+                <div style={{}} className=" py-2  p-3 my-2">
                   <div className="IconsInDetails-container">
                     {/* <Rating movie={movieDetails} /> */}
-                    <div
-                      style={{ cursor: "pointer" }}
-                      onClick={() => setModalShow(true)}
-                      className="IconsInDetails text-center text-lg-start"
-                    >
-                      <i
-                        className="fa-solid fa-play fa-2x fs-4 "
-                        style={{
-                          color: "#00d0c5",
-                        }}
-                      ></i>
+                    <div className="IconsInDetails text-center text-lg-start">
                       <span
-                        className=" text-capitalize"
-                        style={{
-                          fontSize: 20,
-                          color: "#00d0c5",
-                          paddingLeft: "0.23em",
-                        }}
+                        style={{ cursor: "pointer" }}
+                        onClick={() => setModalShow(true)}
+                        className="trailer-icon-container"
                       >
-                        watch Trailer
+                        <i
+                          className="fa-solid fa-play fa-2x fs-4 "
+                          style={{
+                            color: "#00d0c5",
+                          }}
+                        ></i>
+                        <span
+                          className=" text-capitalize"
+                          style={{
+                            fontSize: 20,
+                            color: "#00d0c5",
+                            paddingLeft: "0.23em",
+                          }}
+                        >
+                          watch Trailer
+                        </span>
                       </span>
+
+                      <button
+                        disabled={favLoader}
+                        style={{ cursor: "pointer" }}
+                        onClick={favLoader ? () => "" : addToFav}
+                        className={`mx-4 fs-4 bg-transparent border-0 text-light`}
+                        variant="outline-secondary"
+                      >
+                        <i
+                          style={{ color: "gold" }}
+                          className={`fa-${
+                            favLoader
+                              ? "spinner fa-spin fa-solid"
+                              : isFavorite
+                              ? "star fa-solid"
+                              : "star fa-regular"
+                          } `}
+                        ></i>{" "}
+                        List
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -138,6 +219,10 @@ export default function MovieDetails() {
                       {movieDetails.production_year}
                     </small>{" "}
                   </p>
+                  {movieDetails.type !== "movie" && (
+                    <SeriesHandler movieDetails={movieDetails} />
+                  )}
+
                   <MyVerticallyCenteredModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
@@ -148,17 +233,16 @@ export default function MovieDetails() {
           </div>
         </div>
         {/* video player */}
-        <div className=" my-5 w- 75   mx-auto ">
-          <div className="  ">
-            {" "}
+        <div>
+          <div className=" py-5">
             <Player
               keyboardShortcut={{
-                pause: false,
-                forward: true,
-                rewind: true,
+                pause: typing,
+                forward: typing,
+                rewind: typing,
                 fullScreen: false,
-                mute: true,
-                subtitle: true,
+                mute: typing,
+                subtitle: typing,
               }}
               ref={playerRef}
               src={[
@@ -175,19 +259,6 @@ export default function MovieDetails() {
                   url: "https://cdn.glitch.me/cbf2cfb4-aa52-4a1f-a73c-461eef3d38e8/480.mp4",
                 },
               ]}
-              // subtitles={[
-              //   {
-              //     lang: "en",
-              //     language: "English",
-              //     url: "https://cdn.jsdelivr.net/gh/naptestdev/video-examples@master/en.vtt",
-              //   },
-              //   {
-              //     lang: "fr",
-              //     language: "French",
-              //     url: "https://cdn.jsdelivr.net/gh/naptestdev/video-examples@master/fr.vtt",
-              //   },
-              // ]}
-              // dimensions={{ width: "80 vw", height: "50 vh" }}
               poster={movieDetails.cover_image}
               controls
               // keyboard
@@ -195,7 +266,14 @@ export default function MovieDetails() {
             />
           </div>
         </div>{" "}
-        <Reviews />
+        {products.length > 0 && (
+          <CardsSlider
+            movies={products}
+            title={"Related Products"}
+            type={`product`}
+          />
+        )}
+        <Reviews typing={typing} setTyping={setTyping} />
       </div>
     </div>
   );

@@ -1,0 +1,17 @@
+.occordionList {
+  color: whitesmoke !important;
+}
+
+.occordionList:hover {
+  background-color: #13b6b6db !important;
+  --bs-accordion-active-bg: #13b6b6db !important;
+}
+
+.occordionOnFocus {
+  --bs-accordion-active-bg: #13b6b6db !important;
+}
+
+occordionOnFocus::after {
+  color: whitesmoke !important;
+  background-color: whitesmoke !important;
+}

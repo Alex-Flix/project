@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import imgDefault from "../../assets/img/01.jpg";
+import imgDefaultFemale from "../../assets/img/02.png";
+import imgDefaultMale from "../../assets/img/03.png";
+
 import { useSearchParams } from "react-router-dom";
 import { getAllUsers, searchUser } from "../../api/apiData";
 import Button from "react-bootstrap/Button";
@@ -10,27 +12,37 @@ import {
 } from "../../Utils/userUtils";
 
 import { PaginationControl } from "react-bootstrap-pagination-control";
+import Swal from "sweetalert2";
 
 export default function UserList() {
+  
   const [searchParams, setSearchParams] = useSearchParams();
   const [userList, setUserList] = useState([]);
   const [userListSearch, setUserListSearch] = useState([]);
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState(
+    searchParams.get("name") ? searchParams.get("name") : ""
+  );
   const [totalPages, setTotalPages] = useState(1);
   const [totalSearchPages, setTotalSearchPages] = useState(1);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchName) {
-      // setSearchParams(`name=${searchName}&&searchPage=3`);
       setSearchParams(`name=${searchName}`);
       searchUser(
         searchName,
         searchParams.get("searchPage") ? searchParams.get("searchPage") : 1
       ).then((data) => {
-        if (data?.message) {
+        if (data?.message && data.data.length) {
           setUserListSearch(data.data);
           setTotalSearchPages(data.totalPages);
+        } else {
+          setUserListSearch([]);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "User Search Not Found",
+          });
         }
       });
     } else {
@@ -60,21 +72,32 @@ export default function UserList() {
         }
       }
     );
-    if (searchParams.get("searchPage")) {
+    if (searchParams.get("name")) {
       searchUser(
         searchParams.get("name"),
         searchParams.get("searchPage") ? searchParams.get("searchPage") : 1
       ).then((data) => {
-        if (data?.message) setUserListSearch(data.data);
+        if (data?.message && data.data.length) {
+          setUserListSearch(data.data);
+          setTotalSearchPages(data.totalPages);
+        }
+        else {
+          setUserListSearch([]);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "User Search Not Found",
+          });
+        }
       });
     }
   }, [searchParams]);
   return (
     <>
-      <section className="col-xl-10 py-5 text-light">
-        <h2 className="pb-2 ">User List</h2>
+      <section className="col-xl-10 py-5 text-light offset-xl-2">
+        <h2 className="pt-xl-0 pt-3 ps-4">User List</h2>
         <Form
-          className="d-flex col-xl-4 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
+          className="d-flex col-xl-4 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto pb-4 pe-lg-5"
           onSubmit={handleSearch}
         >
           <Form.Control
@@ -93,7 +116,7 @@ export default function UserList() {
           <div className="row row-cols-1">
             <article className="table-header row d-xl-flex d-none  px-xl-3  pb-4 pt-2 col-lg-11 mx-auto border border-1 border-bottom-0 bg-blue-dark">
               <p className="lead col">Profile</p>
-              <p className="lead col">Name</p>
+              <p className="lead col-3 text-center">Name</p>
               <p className="lead col">Contact</p>
               <p className="lead col text-center">Gender</p>
               <p className="lead col text-center">Age</p>
@@ -118,16 +141,18 @@ export default function UserList() {
                         src={
                           item?.profile_img?.secure_url
                             ? item.profile_img.secure_url
-                            : imgDefault
+                            : item.gender === "female"
+                            ? imgDefaultFemale
+                            : imgDefaultMale
                         }
                         alt="Profile"
                         className="col-xl-8 col-lg-6 col-12 rounded-3 "
                       />
                     </div>
                   </div>
-                  <div className="col-xl col-12 row">
+                  <div className="col-xl-3 col-12 row">
                     <p className="lead d-xl-none d-block col-6">Name</p>
-                    <p className="col-xl col-6 text-xl-start text-end">
+                    <p className="col-xl col-6 text-xl-center text-end">
                       {item.firstName + " " + item.lastName}
                     </p>
                   </div>
@@ -164,7 +189,7 @@ export default function UserList() {
                   </div>
                   <div className="col-xl col-12 row">
                     <p className="lead d-xl-none d-block col-6">Status</p>
-                    <p className="col-xl col-6 h4 text-xl-center text-end d-flex flex-nowrap justify-content-xl-center justify-content-end">
+                    <p className="col-xl col-6 h4 text-xl-center text-end d-flex flex-nowrap justify-content-xl-center justify-content-end align-items-center">
                       <span
                         className={
                           "badge  " + (item.status ? "bg-success" : "bg-danger")
@@ -175,8 +200,8 @@ export default function UserList() {
                     </p>
                   </div>
                   <div className="col-xl col-12 row">
-                    <p className="lead d-xl-none d-block col-6">Action</p>
-                    <p className="col-xl col-6 text-xl-center text-end">
+                    <p className="lead d-xl-none d-block col-6 ">Action</p>
+                    <p className="col-xl col-6 text-xl-center text-end d-flex flex-nowrap justify-content-xl-center justify-content-end">
                       <i
                         className="fa-solid fa-eye me-2 p-2 bg-info rounded-2 cursor text-red "
                         onClick={() => showUserDetails(item)}
@@ -198,8 +223,8 @@ export default function UserList() {
           </div>
         ) : (
           <div className="vh-100 d-flex align-items-center justify-content-center">
-          <i className="fas fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
-        </div>
+            <i className="fas fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+          </div>
         )}
         <div
           className="py-4 w-75 mx-auto"
@@ -207,14 +232,14 @@ export default function UserList() {
         >
           <PaginationControl
             page={
-              searchParams.get("name")
+              searchParams.get("name") && userListSearch.length
                 ? +searchParams.get("searchPage")
                 : searchParams.get("page")
                 ? +searchParams.get("page")
                 : 1
             }
             total={
-              searchParams.get("name")
+              searchParams.get("name") && userListSearch.length
                 ? totalSearchPages > 1
                   ? totalSearchPages
                   : 0
@@ -224,7 +249,7 @@ export default function UserList() {
             }
             limit={1}
             changePage={(page) => {
-              searchParams.get("name")
+              searchParams.get("name") && userListSearch.length
                 ? setSearchParams(
                     `name=${searchParams.get("name")}&&searchPage=${page}`
                   )

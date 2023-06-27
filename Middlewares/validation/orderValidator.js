@@ -1,11 +1,6 @@
 const { param, body } = require("express-validator");
 
 module.exports.addNewOrder = [
-  body("user_id")
-    .isMongoId()
-    .withMessage("id should be mongoId")
-    .notEmpty()
-    .withMessage("user_id shouldn't be empty"),
   body("products")
     .isArray()
     .withMessage("products should be an Array")

@@ -9,16 +9,8 @@ export default function Series() {
   let series = { ...allVids }.series;
 
   useEffect(() => {
-    dispatch(fetchAllSeries());
+    if (series?.length === 0) dispatch(fetchAllSeries());
   }, []);
-
-  //Loader till the data arrive
-  if (allVids.length === 0)
-    return (
-      <h1 className="w-100 h-100 text-light d-flex justify-content-center align-items-center">
-        Loading....
-      </h1>
-    );
 
   return <Videos videos={series} type={"series"} />;
 }

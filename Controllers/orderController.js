@@ -12,13 +12,14 @@ module.exports.getAllUserOrders = function (req, res, next) {
     })
     .catch((error) => next(error));
 };
+
 module.exports.addNewOrder = async function (req, res, next) {
   let products = req.body.products.sort((a, b) => {
     if (a._id > b._id) return 1;
     else if (a._id < b._id) return -1;
     else return 0;
   });
- const { _id: user_id } = req.user;
+  const { _id: user_id } = req.user;
   let data = req.checkedProducts;
   //creating order after passing all checks
   let object = {

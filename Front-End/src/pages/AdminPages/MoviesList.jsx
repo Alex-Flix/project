@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import imgDefault from "../../assets/img/01.jpg";
+import imgDefault from "../../assets/img/Add-Movies.jpg";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useSearchParams } from "react-router-dom";
@@ -10,9 +10,10 @@ import {
   updateMovieData,
 } from "../../Utils/moviesUtils";
 import MoviesModule from "../../components/MoviesModule";
+import { movieCategories } from "./../../validation/movieValidation";
+import { Formik } from "formik";
 
 export default function MoviesList() {
-  const [searchName, setSearchName] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [movieList, setMovieList] = useState([]);
   const [movieListSearch, setMovieListSearch] = useState([]);
@@ -23,20 +24,6 @@ export default function MoviesList() {
   const handleShow = (obj) => {
     setShow(true);
     setItemSelect(obj);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchName) {
-      setSearchParams(`name=${searchName}`);
-      searchMovie(searchName).then((data) => {
-        if (data?.message) setMovieListSearch(data.data);
-      });
-    } else {
-      setMovieListSearch([]);
-      searchParams.delete("name");
-      setSearchParams(searchParams);
-    }
   };
 
   const deleteMovie = (obj) => {
@@ -61,32 +48,115 @@ export default function MoviesList() {
     });
   };
 
+  const dataSubmit = (obj) => {
+    const hasEmptyValue = Object.values(obj).every((value) => value === "");
+    if (!hasEmptyValue) {
+      setSearchParams(
+        `${obj.name && "name=" + obj.name}&${obj.type && "type=" + obj.type}&${
+          obj.category && "category=" + obj.category
+        }`
+      );
+      searchMovie(obj).then((data) => {
+        if (data?.message) setMovieListSearch(data.data);
+      });
+    } else {
+      setMovieListSearch([]);
+      searchParams.delete("name");
+      searchParams.delete("type");
+      searchParams.delete("category");
+      setSearchParams(searchParams);
+    }
+  };
+
   useEffect(() => {
     getAllMovies().then((data) => {
       if (data?.message) setMovieList(data.data);
     });
+    if (searchParams.size) {
+      const params = {};
+      for (const [key, value] of searchParams) {
+        params[key] = value;
+      }
+      searchMovie(params).then((data) => {
+        if (data?.message)
+        if (data?.message && data.data.length) {
+          setMovieListSearch(data.data);
+        } 
+        else {
+          setMovieListSearch([]);
+        }
+      });
+    }
   }, []);
 
   return (
     <>
-      <section className="col-xl-10 py-5 text-light">
-        <h2 className="pb-2 ">Movies List</h2>
-        <Form
-          className="d-flex col-xl-4 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
-          onSubmit={handleSearch}
+      <section className="col-xl-10 py-5 text-light offset-xl-2">
+        <h2 className="pt-xl-0 pt-3 ps-4 ">Movies List</h2>
+        <Formik
+          onSubmit={dataSubmit}
+          initialValues={{
+            name: searchParams.get("name") ? searchParams.get("name") : "",
+            type: searchParams.get("type") ? searchParams.get("type") : "",
+            category: searchParams.get("category")
+              ? searchParams.get("category")
+              : "",
+          }}
         >
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            defaultValue={searchParams.get("name")}
-            onChange={(e) => setSearchName(e.target.value)}
-          />
-          <Button type="submit" variant="outline-primary">
-            Search
-          </Button>
-        </Form>
+          {({ handleSubmit, handleChange, values }) => (
+            <Form
+              className="d-flex flex-wrap flex-md-nowrap  col-xl-6 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
+              onSubmit={handleSubmit}
+            >
+              <div className="d-flex order-md-0 order-1 col-md-6 col-12 me-3 ">
+                <Form.Group className="me-2 col-6" controlId="type">
+                  <Form.Select
+                    name="type"
+                    onChange={handleChange}
+                    defaultValue={searchParams.get("type")}
+                  >
+                    <option value="">Select Types</option>
+                    <option value="movie">Movie</option>
+                    <option value="series">Series</option>
+                    <option value="anime">Anime</option>
+                  </Form.Select>
+                </Form.Group>
+                <Form.Group className="col-6" controlId="category">
+                  <Form.Select
+                    name="category"
+                    onChange={handleChange}
+                    defaultValue={searchParams.get("category")}
+                  >
+                    <option value="">Select Category</option>
+                    {movieCategories.map((item, index) => (
+                      <option value={item.value} key={`data_${index}`}>
+                        {item.label}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </div>
+
+              <Form.Group
+                controlId="name"
+                className="d-flex order-md-1 order-0 col-md-6 col-12 mb-2"
+              >
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  className="me-2"
+                  aria-label="Search"
+                  value={values.name}
+                  onChange={handleChange}
+                />
+
+                <Button type="submit" variant="outline-primary">
+                  Search
+                </Button>
+              </Form.Group>
+            </Form>
+          )}
+        </Formik>
         {movieListSearch.length || movieList.length ? (
           <div className="row row-cols-1">
             <article className="table-header row d-xl-flex d-none px-xl-3 pb-4 pt-2 col-lg-11 mx-auto border border-1 border-bottom-0 bg-blue-dark">

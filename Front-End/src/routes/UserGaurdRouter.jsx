@@ -10,10 +10,11 @@ export default function UserGaurdRouter() {
       <UserGuard>
         <Suspense fallback={<FullScreenLoader />}>
           <Nav positionStyle={"position-sticky top-0 start-0"} />
-          <div className="py-1">
+          <div>
             <Outlet />
           </div>
         </Suspense>
+        
       </UserGuard>
     </>
   );

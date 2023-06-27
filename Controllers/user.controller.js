@@ -78,10 +78,10 @@ exports.deleteUser = (req, res, next) => {
 
 exports.getFavoritesUser = (req, res, next) => {
   const { _id } = req.user;
-  User.findById({ _id }, { favorites: 1 })
+  User.findById({ _id }, {_id:0, favorites: 1 })
     .then((data) => {
       if (!data?.favorites.length) throw new Error("User Favorites not found");
-      res.status(200).json({ message: "Done", data });
+      res.status(200).json({ message: "Done",data: data.favorites });
     })
     .catch((err) => next(err));
 };
@@ -89,9 +89,8 @@ exports.getFavoritesUser = (req, res, next) => {
 exports.addFavoritesUser = (req, res, next) => {
   const { _id } = req.user;
   const { id } = req.body;
-  const { name, poster } = req.moves;
-  console.log(poster);
-  User.updateOne({ _id }, { $addToSet: { favorites: { id, name, poster } } })
+  const { name, poster_image } = req.moves;
+  User.updateOne({ _id }, { $addToSet: { favorites: { id, name, poster:poster_image } } })
     .then((data) => {
       if (!data.modifiedCount) throw new Error("Update Favorites Fail");
       res.status(200).json({ message: "Done" });
@@ -101,7 +100,7 @@ exports.addFavoritesUser = (req, res, next) => {
 
 exports.deleteFavoritesUser = (req, res, next) => {
   const { _id } = req.user;
-  const { id } = req.body;
+  const { id } = req.params;
   User.updateOne({ _id }, { $pull: { favorites: { id } } })
     .then((data) => {
       if (!data.modifiedCount) throw new Error("Delete Favorites Fail");
@@ -172,10 +171,9 @@ exports.searchUser = (req, res, next) => {
     .skip(skip)
     .limit(limit)
     .then(async (data) => {
-      if (!data.length) throw new Error("User not found");
-      let totalPages = await User.countDocuments({});
+      let totalPages = await User.countDocuments({ $or: [first, last] });
       totalPages = Math.ceil(totalPages / limit);
-      res.status(200).json({ message: "Done", data, totalPages });
+      res.status(200).json({ message: "Done", data,totalPages });
     })
     .catch((err) => next(err));
 };

@@ -7,6 +7,7 @@ import * as yup from "yup";
 import * as userValidation from "../../validation/userValidation";
 import { changePasswordUser } from "../../api/apiData";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function ChangePassword() {
   const changePasswordSchema = yup.object().shape({
@@ -15,6 +16,7 @@ export default function ChangePassword() {
     confirmPassword: userValidation.confirmPassword,
   });
   const navigate = useNavigate();
+  const loader = useSelector((state) => state.loader);
 
   const dataSubmit = (obj) => {
     changePasswordUser(obj).then((data) => {
@@ -122,7 +124,7 @@ export default function ChangePassword() {
 
                 <div className="pb-5 pt-4 text-end">
                   <Button type="submit" className="btn btn-danger  py-2">
-                    Save Change
+                  {loader ? "Save Change" : "Waiting......"} 
                   </Button>
                 </div>
               </Form>

@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getProductById } from "../../api/apiEcommerce";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToCart } from "./../../store/Slice/cart";
+import FullScreenLoader from "./../../components/FullScreenLoader";
 
 export default function ProductDetails() {
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const imgRef = useRef(null);
@@ -27,22 +28,17 @@ export default function ProductDetails() {
     imgRef.current.src = e.target.src;
   }
 
-  if (!product || !product.images) {
-    return (
-      <div className="vh-100 d-flex align-items-center justify-content-center">
-        {" "}
-        <i className="fas fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
-      </div>
-    );
+  if (!product) {
+    return <FullScreenLoader />;
   }
   return (
-    <>
-      <section id="prodetails" className="section-p1 w-75 mx-auto text-light">
+    <>{product.images?.length >= 0 &&( 
+      <section id="prodetails" className="section-p1 w-75 mx-auto text-light ">
         {product.images?.length >= 3 ? (
-          <div className="single-pro-img">
+          <div className="single-pro-img ">
             <img
               src={product.images[0]?.secure_url}
-              className="full-width"
+              className="full-width main-img"
               alt=""
               ref={imgRef}
             />
@@ -77,7 +73,7 @@ export default function ProductDetails() {
           <div className="single-pro-img">
             <img
               src={product.images[0]?.secure_url}
-              className="full-width"
+              className="full-width main-img"
               alt=""
               ref={imgRef}
             />{" "}
@@ -85,22 +81,25 @@ export default function ProductDetails() {
         )}
 
         <div className="single-pro-details">
-          <h6 className="text-muted">{product.category}</h6>
-          <h4>{product.name}</h4>
+          <h6 className="text-secondary">{product.category}</h6>
+          <h4 className="pt-3">{product.name}</h4>
           <h2>${product.price}</h2>
           <p className="mb-3">
             {" "}
-            In Stock : <strong>{product.available}</strong> item
+            In Stock :{" "}
+            <strong className="text-warning">{product.available}</strong> item
           </p>
-          <select name="" id="">
-            <option value="" disabled defaultValue>
-              Select Size
-            </option>
-            <option value="s">S</option>
-            <option value="m">M</option>
-            <option value="l">L</option>
-            <option value="xl">XL</option>
-          </select>
+          {product.category === "T-shirt" && (
+            <select name="" id="">
+              <option value="" disabled defaultValue>
+                Select Size
+              </option>
+              <option value="s">S</option>
+              <option value="m">M</option>
+              <option value="l">L</option>
+              <option value="xl">XL</option>
+            </select>
+          )}
           <input
             type="number"
             min="1"
@@ -108,22 +107,25 @@ export default function ProductDetails() {
             value={quantity}
             onChange={(e) => setQuantity(+e.target.value)}
             placeholder="1"
+            // onKeyDown={(e) => e.preventDefault()}
           />
           <button
-            className="btn btn-outline-primary"
+            className="btn add-button"
             disabled={
               quantity > product.available || quantity <= 0 ? true : false
             }
             onClick={() => {
-              dispatch(addToCart({ ...product, quantity }));
+              dispatch(
+                addToCart({ ...product, quantity, image: imgRef.current.src })
+              );
             }}
           >
-            Add To Cart
+            <i class="fa-solid fa-cart-plus"></i> Add To Cart
           </button>
           <h4>Product Details</h4>
           <span>{product.description}</span>
         </div>
-      </section>
+      </section>)}
     </>
   );
 }

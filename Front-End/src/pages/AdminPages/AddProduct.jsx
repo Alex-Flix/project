@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import { Formik } from "formik";
 import * as yup from "yup";
 import * as productValidation from "../../validation/productValidation";
-import imgDefault from "../../assets/img/movie-19.jpg";
+import imgDefault from "../../assets/img/Add-Product.jpg";
 import Swal from "sweetalert2";
 import { createProduct } from "../../api/apiProduct";
 import { useSelector } from "react-redux";
@@ -25,7 +25,7 @@ export default function AddProduct() {
     if (img.length < 5) setImg([...img, ...e.target.files]);
   };
 
-  const dataSubmit = (obj) => {
+  const dataSubmit = (obj, { resetForm }) => {
     if (!img.length)
       return Swal.fire({
         icon: "error",
@@ -42,11 +42,14 @@ export default function AddProduct() {
     formData.append("category", obj.category);
 
     createProduct(formData).then((data) => {
-      if (data?.message)
+      if (data?.message) {
         Swal.fire({
           icon: "success",
           title: data.message,
         });
+        resetForm();
+        setImg([]);
+      }
     });
   };
 
@@ -58,11 +61,11 @@ export default function AddProduct() {
 
   return (
     <>
-      <section className="col-xl-10 py-5 text-light">
-        <h2 className="pb-2 ms-lg-5">Add Product</h2>
+      <section className="col-xl-10 py-5 text-light offset-xl-2">
+        <h2 className="pt-xl-0 pt-3 pb-2 ms-lg-5">Add Product</h2>
         <section className="row">
           <article className="col-lg-3 col-md-4 col-10  mx-auto ">
-            <div className="row ">
+            <div className="row col-xl-9  col-11 mx-auto">
               {new Array(5).fill(0).map((item, index) => (
                 <div
                   className={
@@ -75,7 +78,7 @@ export default function AddProduct() {
                       img[index] ? URL.createObjectURL(img[index]) : imgDefault
                     }
                     alt="Profile"
-                    className="w-100 rounded-3 shadow-sm "
+                    className="w-100 rounded-3 shadow-sm"
                   />
                   {img[index] ? (
                     <div
@@ -87,7 +90,7 @@ export default function AddProduct() {
                       }
                       onClick={() => deleteImg(index)}
                     >
-                      <i className="fa-solid fa-ban"></i>
+                      <i className="fa-solid fa-circle-xmark"></i>
                     </div>
                   ) : (
                     <Form.Group

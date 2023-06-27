@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import imgDefault from "../../assets/img/01.jpg";
+import imgDefaultFemale from "../../assets/img/02.png";
+import imgDefaultMale from "../../assets/img/03.png";
 import { getAllReviews } from "../../api/apiReview";
 import { deleteReviewByAdmin } from "../../Utils/reviewUtils";
 
@@ -16,52 +17,52 @@ export default function ReviewsList() {
 
   return (
     <>
-      <section className="col-xl-10 py-5 text-light">
-        <h2 className="pb-2 ">Review List</h2>
+      <section className="col-xl-10 py-5 text-light offset-xl-2">
+        <h2 className="pt-xl-0 py-3 ps-4 ">Review List</h2>
         {reviewList.length ? (
           <div className="row row-cols-1">
-            <article className="table-header row d-xl-flex d-none px-xl-3 pb-4 pt-2 col-lg-11 mx-auto bg-blue-dark border border-1 border-bottom-0">
-              <p className="lead col-2">Poster</p>
-              <p className="lead col-2 text-center">User_Name</p>
-              <p className="lead col-6 text-center">Content</p>
-              <p className="lead col-1 text-center ms-xl-2">Action</p>
+            <article className="table-header row d-xl-flex flex-nowrap d-none pt-2 col-xl-11 mx-auto bg-blue-dark border border-1 border-bottom-0">
+              <p className="lead col">Poster</p>
+              <p className="lead col-3">User_Name</p>
+              <p className="lead col-4 text-center">Content</p>
+              <p className="lead col text-center">Action</p>
             </article>
 
             {reviewList.map((item, index) => (
               <article
                 className={
-                  "row align-items-center col-xl-11 col-10 mx-auto p-lg-3 p-5 border border-1 list-hover " +
+                  "row  align-items-center col-xl-11 col-10 mx-auto p-lg-3 p-5 border border-1 list-hover " +
                   (index % 2 === 1 && "bg-blue-dark")
                 }
                 key={item._id}
               >
-                <div className="col-xl-2 col-12 py-xl-0 py-3 row align-items-center">
+                <div className="col-xl col-12 py-xl-0 py-3 row align-items-center">
                   <p className="lead d-xl-none d-block col-6">Poster</p>
                   <div className="col-xl col-6 w-25 ms-xl-0 ms-auto text-xl-start text-end">
                     <img
                       src={
                         item?.movie_id?.poster
                           ? item.movie_id.poster
-                          : imgDefault
+                          : item.gender==="female"? imgDefaultFemale:imgDefaultMale
                       }
                       alt="Profile"
-                      className="col-xl-8 col-lg-6 col-12 rounded-3"
+                      className="col-lg-5 col-12 rounded-3"
                     />
                   </div>
                 </div>
                 <div className="col-xl-3 col-12 row">
                   <p className="lead d-xl-none d-block col-6">User_Name</p>
-                  <p className="col-xl col-6 text-xl-center text-end">
+                  <p className="col-xl col-6 text-xl-start text-end">
                     {item.user_id.firstName + " " + item.user_id.lastName}
                   </p>
                 </div>
-                <div className="col-xl-6 col-12 row ">
-                  <p className="lead d-xl-none d-block col-1">Content</p>
-                  <p className="col-xl col-10 offset-xl-0 offset-1 text-xl-center text-end px-2 pt-1">
+                <div className="col-xl-4 col-12 row">
+                  <p className="lead d-xl-none d-block col-6">Content</p>
+                  <p className="col-xl col-6 text-xl-center text-end ">
                     {item.content}
                   </p>
                 </div>
-                <div className="col-xl-1 col-12 row ">
+                <div className="col-xl col-12 row">
                   <p className="lead d-xl-none d-block col-6">Action</p>
                   <p className="col-xl col-6 text-xl-center text-end d-flex flex-nowrap justify-content-xl-center justify-content-end">
                     <i

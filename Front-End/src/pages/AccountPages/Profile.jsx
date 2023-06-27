@@ -4,7 +4,9 @@ import Form from "react-bootstrap/Form";
 import { Formik } from "formik";
 import * as yup from "yup";
 import * as userValidation from "../../validation/userValidation";
-import imgDefault from "../../assets/img/movie-19.jpg";
+import imgDefaultFemale from "../../assets/img/movie-01.jpg";
+import imgDefaultMale from "../../assets/img/movie-02.jpg";
+
 import {
   addProfileImgForUser,
   getUserData,
@@ -57,7 +59,7 @@ export default function Profile() {
         <h2 className="pb-4 text-light">Profile Page</h2>
         <section className="row">
           <article className="col-lg-3 col-md-4 col-10 mx-md-0 mx-auto ">
-            <div className="position-relative">
+            <div className="position-relative img-size">
               {check && (
                 <img
                   src={
@@ -65,7 +67,7 @@ export default function Profile() {
                       ? URL.createObjectURL(img)
                       : userData?.profile_img?.secure_url
                       ? userData.profile_img.secure_url
-                      : imgDefault
+                      :userData.gender==="female"? imgDefaultFemale:imgDefaultMale
                   }
                   alt="Profile"
                   className="w-100 rounded-3 shadow-sm "

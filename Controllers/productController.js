@@ -9,7 +9,7 @@ exports.getAllProducts = async function (request, response, next) {
     let page = request.query.page;
     page = page * 1 || 1;
     if (page <= 0 || !page) page = 1;
-    let limit = 15; // display only 16 products for each page
+    let limit = 15; // display only 15 products for each page
     let skip = (page - 1) * limit;
     const allProducts = await Product.find({}, { __v: 0 })
       .sort({ name: 1 })

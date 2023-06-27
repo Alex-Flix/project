@@ -33,7 +33,8 @@ router
     validate,
     userController.addFavoritesUser
   )
-  .delete(
+  
+  router.delete("/user/favorites/:id",
     userValidation.deleteFavoriteValidation,
     validate,
     userController.deleteFavoritesUser

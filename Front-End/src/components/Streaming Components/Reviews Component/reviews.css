@@ -1,14 +1,14 @@
-.list-group-item {
+#reviews .list-group-item {
   background-color: rgba(8, 26, 54, 0.3) !important;
   border: none !important;
 }
 
-.reviewListContainer {
+#reviews .reviewListContainer {
   font-size: 0.8rem;
 }
 
-.list-group-item h5,
-.list-group-item p {
+#reviews .list-group-item h5,
+#reviews .list-group-item p {
   font-size: 0.9rem;
 }
 

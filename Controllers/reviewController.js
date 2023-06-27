@@ -15,7 +15,8 @@ exports.getAllReviews = async function (request, response, next) {
 exports.getAllMovieReviews = async function (request, response, next) {
   try {
     let { movieId } = request.params;
-    const allMovieReviews = await Review.find({ movie_id: movieId });
+    const allMovieReviews = await Review.find({ movie_id: movieId })
+      .populate([{path:"user_id",select:{firstName:1,lastName:1}}]);
     if (!allMovieReviews.length) throw new Error("No Reviews exist");
     response.status(200).json({ message: "Done", data: allMovieReviews });
   } catch (error) {

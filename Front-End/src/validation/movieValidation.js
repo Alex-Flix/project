@@ -1,25 +1,25 @@
 import * as yup from "yup";
 
 export const movieCategories = [
-  { value: "Action", label: "Action" },
-  { value: "Adventure", label: "Adventure" },
-  { value: "Animation", label: "Animation" },
-  { value: "Comedy", label: "Comedy" },
-  { value: "Crime", label: "Crime" },
-  { value: "Documentary", label: "Documentary" },
-  { value: "Drama", label: "Drama" },
-  { value: "Family", label: "Family" },
-  { value: "Fantasy", label: "Fantasy" },
-  { value: "History", label: "History" },
-  { value: "Horror", label: "Horror" },
-  { value: "Musical", label: "Musical" },
-  { value: "Mystery", label: "Mystery" },
-  { value: "Romance", label: "Romance" },
-  { value: "Sci-Fi", label: "Sci-Fi" },
-  { value: "Sport", label: "Sport" },
-  { value: "Thriller", label: "Thriller" },
-  { value: "War", label: "War" },
-  { value: "Western", label: "Western" },
+  { value: "action", label: "Action" },
+  { value: "adventure", label: "Adventure" },
+  { value: "animation", label: "Animation" },
+  { value: "comedy", label: "Comedy" },
+  { value: "crime", label: "Crime" },
+  { value: "documentary", label: "Documentary" },
+  { value: "drama", label: "Drama" },
+  { value: "family", label: "Family" },
+  { value: "fantasy", label: "Fantasy" },
+  { value: "history", label: "History" },
+  { value: "horror", label: "Horror" },
+  { value: "musical", label: "Musical" },
+  { value: "mystery", label: "Mystery" },
+  { value: "romance", label: "Romance" },
+  { value: "sci-Fi", label: "Sci-Fi" },
+  { value: "sport", label: "Sport" },
+  { value: "thriller", label: "Thriller" },
+  { value: "war", label: "War" },
+  { value: "western", label: "Western" },
 ];
 const currentYear = new Date().getFullYear();
 
@@ -28,7 +28,7 @@ export const rate = yup
   .number()
   .required("Rating is required")
   .min(1, "Rating must be at least 1")
-  .max(5, "Rating cannot exceed 5");
+  .max(10, "Rating cannot exceed 10");
 export const type = yup.string().required("type should be String");
 export const production_year = 
 yup.number().required('production_year is required').integer().min(1878).max(currentYear);

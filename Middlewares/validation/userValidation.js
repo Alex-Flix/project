@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body,param } = require("express-validator");
 
 const allowedGenders = ["male", "female"];
 const minAge = 18;
@@ -103,7 +103,7 @@ exports.addFavoriteValidation = [
 
 
   exports.deleteFavoriteValidation = [
-    body("id")
+    param("id")
       .notEmpty()
       .withMessage("ID is required")
       .isMongoId()

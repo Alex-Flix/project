@@ -26,7 +26,7 @@ export default function AddUser() {
     setImg(e.target.files[0]);
   };
 
-  const dataSubmit = (obj) => {
+  const dataSubmit = (obj, { resetForm }) => {
     addUser(obj).then((data) => {
       if (data?.message) {
         if (img) {
@@ -34,24 +34,29 @@ export default function AddUser() {
           formData.append("img", img);
           formData.append("_id", data.data._id);
           addProfileImgForUser(formData).then((data) => {
-            if (data?.message)
+            if (data?.message) {
               Swal.fire({
                 icon: "success",
                 title: data.message,
               });
+              resetForm();
+              setImg(null);
+            }
           });
-        } else
+        } else {
           Swal.fire({
             icon: "success",
             title: data.message,
           });
+          resetForm();
+        }
       }
     });
   };
   return (
     <>
-      <section className="col-xl-10 py-5 text-light">
-        <h2 className="pb-2 ms-lg-5">Add User</h2>
+      <section className="col-xl-10 py-5 text-light offset-xl-2">
+        <h2 className="pt-xl-0 pt-3 pb-2 ms-lg-5">Add User</h2>
         <section className="row">
           <article className="col-lg-3 col-md-4 col-10  mx-auto">
             <div className="position-relative">

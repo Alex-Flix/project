@@ -8,13 +8,15 @@
 }
 
 .filters > .video-search:focus::placeholder {
-  visibility: hidden;
+  color: var(--textColor);
 }
 
 .filters > .video-search:focus {
   box-shadow: 0 0 7px var(--specialColor);
   border: none;
-  width: 35% !important;
+  /*width: 35% !important;
+  */transition:all 0.5s ;
+  
 }
 .filters > .category-filter {
   color: var(--bgColor);
@@ -26,3 +28,22 @@
   background-color: var(--scrollNavColor);
 }
 
+@media (min-width:576px) {
+  .filters > .category-filter{
+    width: 50% !important;
+  }
+}
+
+@media (min-width:992px) {
+  .filters > .category-filter,.filters > .video-search{
+    width: 35% !important;
+  }
+  .filters > .video-search:focus{
+    width: 40% !important;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -o-transition: all 0.5s;
+}
+}

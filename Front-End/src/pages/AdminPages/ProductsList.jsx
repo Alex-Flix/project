@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import imgDefault from "../../assets/img/01.jpg";
+import imgDefault from "../../assets/img/List-Product.jpg";
 import { useSearchParams } from "react-router-dom";
 import { getAllProducts, searchProduct } from "../../api/apiProduct";
 import Button from "react-bootstrap/Button";
@@ -13,11 +13,13 @@ import {
 import ProductModule from "../../components/ProductModule";
 import { PaginationControl } from "react-bootstrap-pagination-control";
 
+import { Formik } from "formik";
+import { validCategories } from "../../validation/productValidation";
+
 export default function ProductsList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [productList, setProductList] = useState([]);
   const [productListSearch, setProductListSearch] = useState([]);
-  const [searchName, setSearchName] = useState("");
 
   const [show, setShow] = useState(false);
   const [itemSelect, setItemSelect] = useState({});
@@ -49,19 +51,27 @@ export default function ProductsList() {
     });
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchName) {
-      setSearchParams(`name=${searchName}`);
-      searchProduct(searchName).then((data) => {
+  
+
+  const dataSubmit = (obj) => {
+    const hasEmptyValue = Object.values(obj).every((value) => value === "");
+    if (!hasEmptyValue) {
+      setSearchParams(
+        `${obj.name && "name=" + obj.name}&${
+          obj.category && "category=" + obj.category
+        }`
+      );
+      searchProduct(obj).then((data) => {
         if (data?.message) setProductListSearch(data.products);
       });
     } else {
       setProductListSearch([]);
       searchParams.delete("name");
+      searchParams.delete("category");
       setSearchParams(searchParams);
     }
   };
+
   useEffect(() => {
     getAllProducts(
       searchParams.get("page") ? searchParams.get("page") : 1
@@ -71,28 +81,77 @@ export default function ProductsList() {
         setTotalPages(data.totalPages);
       }
     });
-  }, [searchParams]);
+    if (searchParams.size&&!searchParams.get("page")) {
+      const params = {};
+      for (const [key, value] of searchParams) {
+        params[key] = value;
+      }
+      searchProduct(params).then((data) => {
+        if (data?.message && data.products.length) {
+          setProductListSearch(data.products);
+        } 
+        else {
+          setProductListSearch([]);
+        }
+      });
+    }
+  }, []);
 
   return (
     <>
-      <section className="col-xl-10 py-5 text-light">
-        <h2 className="pb-2 ">Product List</h2>
-        <Form
-          className="d-flex col-xl-4 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
-          onSubmit={handleSearch}
+      <section className="col-xl-10 py-5 text-light offset-xl-2">
+        <h2 className="pt-xl-0 pt-3 ps-4 ">Product List</h2>
+        <Formik
+          onSubmit={dataSubmit}
+          initialValues={{
+            name: searchParams.get("name") ? searchParams.get("name") : "",
+            category: searchParams.get("category")
+              ? searchParams.get("category")
+              : "",
+          }}
         >
-          <Form.Control
-            type="search"
-            placeholder="Search"
-            className="me-2"
-            aria-label="Search"
-            defaultValue={searchParams.get("name")}
-            onChange={(e) => setSearchName(e.target.value)}
-          />
-          <Button type="submit" variant="outline-primary">
-            Search
-          </Button>
-        </Form>
+          {({ handleSubmit, handleChange, values }) => (
+            <Form
+              className="d-flex flex-wrap flex-md-nowrap  col-xl-5 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto py-4 pe-lg-5"
+              onSubmit={handleSubmit}
+            >
+            <div className="d-flex order-md-0 order-1 col-md-6 col-12 me-3 ">
+                <Form.Group  className="col-12" controlId="category">
+                  <Form.Select
+                    name="category"
+                    onChange={handleChange}
+                    defaultValue={searchParams.get("category")}
+                  >
+                    <option value="">Select Category</option>
+                    {validCategories.map((item, index) => (
+                      <option value={item} key={`data_${index}`}>
+                        {item}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </div>
+
+              <Form.Group
+                controlId="name"
+                className="d-flex order-md-1 order-0 col-md-6 col-12 mb-2"
+              >
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  className="me-2"
+                  aria-label="Search"
+                  value={values.name}
+                  onChange={handleChange}
+                />
+
+                <Button type="submit" variant="outline-primary">
+                  Search
+                </Button>
+              </Form.Group>
+            </Form>
+          )}
+        </Formik>
         {productListSearch.length || productList.length ? (
           <div className="row row-cols-1">
             <article className="table-header row d-xl-flex d-none px-xl-3 pb-4 pt-2 col-lg-11 mx-auto border border-1 border-bottom-0 bg-blue-dark">
@@ -180,8 +239,8 @@ export default function ProductsList() {
           </div>
         ) : (
           <div className="vh-100 d-flex align-items-center justify-content-center">
-          <i className="fas fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
-        </div>
+            <i className="fas fa-spinner fa-spin fa-3x" aria-hidden="true"></i>
+          </div>
         )}
         <div
           className="py-4 w-75 mx-auto"
@@ -190,7 +249,7 @@ export default function ProductsList() {
           <PaginationControl
             page={searchParams.get("page") ? +searchParams.get("page") : 1}
             total={
-              searchParams.get("name") ? 0 : totalPages > 1 ? totalPages : 0
+              searchParams.get("name")&& productListSearch.length ? 0 : totalPages > 1 ? totalPages : 0
             }
             limit={1}
             changePage={(page) => {

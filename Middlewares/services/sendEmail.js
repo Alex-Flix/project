@@ -25,27 +25,34 @@ exports.sendMessage =async ({ to = "", subject = "", html = "" }) => {
 
 
 exports.confirmationEmail=(msg,link)=>`
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <body>
-    <h1>Welcome to AlexFlix</h1>
-    <p>Please click the button below to ${msg}:</p>
-    <a href="${link}" target="_blank">
-      Confirm Email
-    </a>
+  <body style="text-align: center">
+    <div style="padding: 20px 0 10px 0">
+      <img src=" https://res.cloudinary.com/djfej0qrv/image/upload/v1687263277/sdodcguqdaiitd6891ey.png" width="300"/>
+    </div>
+    <h2>Thank you for your registration.</h2>
+    <p >Please click the link below to ${msg}</p>
+    <div style="border-radius: 3px;background-color: rgb(73, 93, 120);width: 30%;margin: 0 auto;display: flex;justify-content: center;align-items: center;">
+      <a href="${link}" target="_blank" style="font-size: 20px;color: #ffffff;text-decoration: none;padding: 10px;border-radius: 2px;display: inline-block;">Confirm Email</a>
+    </div>
   </body>
 </html>
 `
 
 exports.confirmationEmailWithPassword=(msg,link,password)=>`
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <body>
-    <h1>Welcome to AlexFlix</h1>
+  <body style="text-align: center">
+    <h1 style="padding: 20px 0 10px 0">Welcome to</h1>
+    <div>
+      <img src=" https://res.cloudinary.com/djfej0qrv/image/upload/v1687263277/sdodcguqdaiitd6891ey.png" width="300"/>
+    </div>
     <p>Please click the button below to ${msg}:</p>
     <h2>${password}</h2>
-    <a href="${link}" target="_blank">
-      Confirm Email
-    </a>
+
+    <div style="border-radius: 3px;background-color: rgb(73, 93, 120);width: 30%;margin: 0 auto;display: flex;justify-content: center;align-items: center;">
+      <a href="${link}" target="_blank" style="font-size: 20px;color: #ffffff;text-decoration: none;padding: 10px;border-radius: 2px;display: inline-block;">Confirm Email</a>
+    </div>
   </body>
 </html>`
