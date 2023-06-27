@@ -9,7 +9,7 @@ export default function NavBarAdmin() {
     const backdrop = document.querySelector(".offcanvas-backdrop");
     const position = document.querySelector("#navBarAdmin");
 
-    if (offcanvas && backdrop&& position) {
+    if (offcanvas && backdrop && position) {
       offcanvas.classList.remove("show");
       backdrop.classList.remove("show");
       position.classList.add("position-fixed");
@@ -20,16 +20,23 @@ export default function NavBarAdmin() {
     navigate("/login");
     localStorage.removeItem("token");
   };
-  const showOffcanvas=()=>{
+  const showOffcanvas = () => {
     const offcanvas = document.querySelector("#navBarAdmin");
-    if (offcanvas ) {
-      offcanvas.classList.remove("position-fixed");
+    const backdrop = document.querySelector(".offcanvas-backdrop");
+    if (offcanvas && backdrop) {
+      offcanvas.classList.toggle("position-fixed");
+      backdrop.addEventListener("click", () => {
+        offcanvas.classList.add("position-fixed");
+      });
     }
-  }
+  };
 
   return (
     <>
-      <section className="col-xl-2 position-fixed top-0 start-0" id="navBarAdmin">
+      <section
+        className="col-xl-2 position-fixed top-0 start-0"
+        id="navBarAdmin"
+      >
         <article className="navbar navbar-expand-xl">
           <button
             id="nav-toggler"
@@ -68,6 +75,7 @@ export default function NavBarAdmin() {
               data-bs-dismiss="offcanvas"
               data-bs-target="#admin-navBar"
               aria-label="Close"
+              onClick={showOffcanvas}
             ></button>
           </div>
           <div className="offcanvas-body py-3 ">
