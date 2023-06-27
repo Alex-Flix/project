@@ -7,9 +7,12 @@ export default function NavBarAdmin() {
   const dismissOffcanvas = () => {
     const offcanvas = document.querySelector("#admin-navBar");
     const backdrop = document.querySelector(".offcanvas-backdrop");
-    if (offcanvas && backdrop) {
+    const position = document.querySelector("#navBarAdmin");
+
+    if (offcanvas && backdrop&& position) {
       offcanvas.classList.remove("show");
       backdrop.classList.remove("show");
+      position.classList.add("position-fixed");
     }
     window.scrollTo(0, 0);
   };
@@ -17,10 +20,16 @@ export default function NavBarAdmin() {
     navigate("/login");
     localStorage.removeItem("token");
   };
+  const showOffcanvas=()=>{
+    const offcanvas = document.querySelector("#navBarAdmin");
+    if (offcanvas ) {
+      offcanvas.classList.remove("position-fixed");
+    }
+  }
 
   return (
     <>
-      <section className="col-xl-2 position-fixed top-0 start-0">
+      <section className="col-xl-2 position-fixed top-0 start-0" id="navBarAdmin">
         <article className="navbar navbar-expand-xl">
           <button
             id="nav-toggler"
@@ -29,6 +38,7 @@ export default function NavBarAdmin() {
             data-bs-toggle="offcanvas"
             data-bs-target="#admin-navBar"
             aria-controls="admin-navBar"
+            onClick={showOffcanvas}
           >
             <span id="nav-toggler-icon" className="navbar-toggler-icon">
               <i
