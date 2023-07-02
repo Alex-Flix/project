@@ -113,7 +113,7 @@ export default function OrdersList() {
                     ></i>
                     <i
                       className={
-                        "fa-solid fa-pen-to-square me-2 p-2 bg-success rounded-2 " +
+                        "fa-solid fa-check me-2 p-2 bg-success rounded-2 " +
                         (item.status !== "pending"
                           ? "text-light"
                           : "cursor text-red")

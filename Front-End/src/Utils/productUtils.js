@@ -1,8 +1,14 @@
 import Swal from "sweetalert2";
 import { deleteProductById, updateProductById } from "../api/apiProduct";
+import imgDefault from "../assets/img/List-Product.jpg";
 
 export const showProductDetails = (data) => {
   const content = `
+  <div class="w-50 mx-auto pb-3">
+  <img src=${
+    data.images.length ? data.images[0].secure_url : imgDefault
+  } alt="Profile"  class="w-100 rounded-3"/>    
+  </div>
       <ul>
         <li class="py-1"><b>Product Name : </b> ${data.name}</li>
         <li class="py-1"><b>Category : </b> ${data.category}</li>
@@ -15,7 +21,6 @@ export const showProductDetails = (data) => {
   return Swal.fire({
     title: "Product Details",
     html: content,
-    icon: "info",
   });
 };
 
@@ -25,7 +30,7 @@ export const updateProductData = ({
   productListSearch,
   setProductList,
   setProductListSearch,
-  setShow
+  setShow,
 }) => {
   updateProductById(obj._id, obj).then((data) => {
     if (data?.message) {

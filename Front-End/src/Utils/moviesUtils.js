@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import { deleteMovieById, updateMovieById } from "../api/apiMovies";
+import imgDefault from "../assets/img/Add-Movies.jpg";
 
 export const showMovieDetails = (data) => {
   const productList = data.products
@@ -14,6 +15,11 @@ export const showMovieDetails = (data) => {
     )
     .join("");
   const content = `
+  <div class="w-50 mx-auto pb-3">
+  <img src=${
+    data?.poster_image ? data.poster_image : imgDefault
+  } alt="Profile"  class="w-100 rounded-3"/>    
+  </div>
         <ul>
           <li class="py-1"><b>Movie Name : </b> ${data.name}</li>
           <li class="py-1"><b>Type : </b> ${data.type}</li>
@@ -36,8 +42,7 @@ export const showMovieDetails = (data) => {
   return Swal.fire({
     title: "Movie Details",
     html: content,
-    icon: "info",
-    width: '1000px'
+    width: "1000px",
   });
 };
 

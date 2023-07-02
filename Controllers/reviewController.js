@@ -4,7 +4,7 @@ const Review = mongoose.model("reviews");
 exports.getAllReviews = async function (request, response, next) {
   try {
     const allReviews = await Review.find({})
-    .populate([{path:"user_id",select:{firstName:1,lastName:1}},{path:"movie_id",select:{poster:1}}]);
+    .populate([{path:"user_id",select:{firstName:1,lastName:1}},{path:"movie_id",select:{poster_image:1,name:1}}]);
     if (!allReviews.length) throw new Error("No Reviews exist");
     response.status(200).json({ message: "Done", data: allReviews });
   } catch (error) {

@@ -114,7 +114,7 @@ export default function NavBarAdmin() {
                 >
                   <span>
                     <i className="fa-solid fa-users pe-3"></i>
-                    User
+                    Users
                   </span>
                 </h3>
 

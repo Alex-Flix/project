@@ -95,7 +95,7 @@ export default function UserList() {
   return (
     <>
       <section className="col-xl-10 py-5 text-light offset-xl-2">
-        <h2 className="pt-xl-0 pt-3 ps-4">User List</h2>
+        <h2 className="pt-xl-0 pt-3 ps-4">Users List</h2>
         <Form
           className="d-flex col-xl-4 col-lg-11 col-10 mx-lg-0 mx-auto ms-lg-auto pb-4 pe-lg-5"
           onSubmit={handleSearch}

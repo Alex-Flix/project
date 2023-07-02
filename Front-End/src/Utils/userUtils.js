@@ -1,6 +1,8 @@
 import Swal from "sweetalert2";
 import { softDeleteUser } from "../api/apiData";
 
+import imgDefaultFemale from "../assets/img/02.png";
+import imgDefaultMale from "../assets/img/03.png";
 
 
 export const showUserDetails = (data) => {
@@ -8,6 +10,15 @@ export const showUserDetails = (data) => {
     .map((favorite) => `<li>${favorite.name}</li>`)
     .join("");
   const content = `
+  <div class="w-50 mx-auto pb-3">
+  <img src=${
+    data?.profile_img?.secure_url
+      ? data.profile_img.secure_url
+      : data.gender === "female"
+      ? imgDefaultFemale
+      : imgDefaultMale
+  } alt="Profile"  class="w-100 rounded-3"/>    
+  </div>
       <ul>
         <li class="py-1"><b>First Name : </b> ${data.firstName}</li>
         <li class="py-1"><b>Last Name : </b> ${data.lastName}</li>
@@ -29,8 +40,7 @@ export const showUserDetails = (data) => {
 
   return Swal.fire({
     title: "User Details",
-    html: content,
-    icon: "info",
+    html: content
   });
 };
 
