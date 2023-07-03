@@ -76,7 +76,7 @@ storeAxios.interceptors.request.use(
       config.headers = {
         Authorization: `Basic ${localStorage.getItem("token")}`,
       };
-      else
+    else
       config.headers = {
         Authorization: `Basic ${token}`,
       };
@@ -102,14 +102,13 @@ storeAxios.interceptors.response.use(
       }
       return Promise.reject(error);
     }
-   Swal.fire({
+    Swal.fire({
       icon: "error",
       title: "Oops...",
       text: error.message,
     });
   }
 );
-
 
 //Stream
 export const axiosInstance = axios.create({
@@ -187,7 +186,7 @@ favAxios.interceptors.request.use(
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Connection Failed",
+        text: "Network Error",
       });
     }
   },
@@ -207,7 +206,7 @@ favAxios.interceptors.response.use(
     return response;
   },
   function (error) {
-    store.dispatch(setLoader(false));
+    store.dispatch(setFavLoader(false));
     if (error?.response?.data) {
       if (
         error.response.data.massage === "Error: your email has been blocked"

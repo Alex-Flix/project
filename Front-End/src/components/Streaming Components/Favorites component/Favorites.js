@@ -20,7 +20,7 @@ export default function Favorites() {
         >
           no favorites yet !
         </h3>
-      <div className="favorite-cards row justify-content-center w-100">
+      <div className="favorite-cards row justify-content-center w-100 m-0 p-2">
         {favorites.map((movie) => {
           let movieObj = {
             _id:movie.id,

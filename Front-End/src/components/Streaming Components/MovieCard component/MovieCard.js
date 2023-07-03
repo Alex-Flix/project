@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import "./MovieCard.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "react-bootstrap";
@@ -9,12 +8,11 @@ import {
   addToFavorites,
   deleteFromFavorites,
 } from "../../../api/apiStream";
-import { addToList, removeFromList } from "../../../store/Slice/videosSlice";
-import Swal from "sweetalert2";
-import { useRef } from "react";
+import { removeFromList } from "../../../store/Slice/videosSlice";
 import { setFavLoader } from "../../../store/Slice/favLoader";
+import "./MovieCard.css";
 export function MovieCard({ movie, isFav, type }) {
-  const smFavIcon = useRef();
+  const [localLoader, setLocalLoader] = useState(false);
   const favLoader = useSelector((state) => state.favLoader);
   const cart = useSelector((state) => state.cart.cartList);
   const [inCart, setInCart] = useState(false);
@@ -33,23 +31,42 @@ export function MovieCard({ movie, isFav, type }) {
   };
   const addToFav = function (e) {
     e.stopPropagation();
+    setLocalLoader(true);
     if (!isFavorite) {
       addToFavorites(movie._id)
         .then((res) => {
+          setLocalLoader(false);
           if (res) setIsFavorite(true);
+          else {
+            dispatch(setFavLoader(false));
+            if (localStorage.getItem("token"))
+              PopUpMsg({ message: "Connection Failed" });
+            else PopUpMsg({ message: "Please Login First" });
+          }
         })
         .catch((error) => {
           dispatch(setFavLoader(false));
+          setLocalLoader(false);
           return PopUpMsg(error);
         });
     } else {
       deleteFromFavorites(movie._id)
         .then((res) => {
-          if (res) setIsFavorite(false);
-          dispatch(removeFromList(movie));
+          setLocalLoader(false);
+          if (res) {
+            setIsFavorite(false);
+            dispatch(removeFromList(movie));
+          } else {
+            dispatch(setFavLoader(false));
+            if (localStorage.getItem("token"))
+              PopUpMsg({ message: "Connection Failed" });
+            else PopUpMsg({ message: "Please Login First" });
+          }
         })
         .catch((error) => {
           dispatch(setFavLoader(false));
+          setLocalLoader(false);
+
           return PopUpMsg(error);
         });
     }
@@ -88,7 +105,11 @@ export function MovieCard({ movie, isFav, type }) {
             >
               <i
                 className={`fa-solid fa-${
-                  favLoader ? "spinner fa-spin" : isFavorite ? "check" : "plus"
+                  localLoader
+                    ? "spinner fa-spin"
+                    : isFavorite
+                    ? "check"
+                    : "plus"
                 }`}
               ></i>{" "}
               List
