@@ -1,17 +1,27 @@
 .occordionList {
   color: whitesmoke !important;
+  background-color: transparent !important;
+  border: none;
 }
 
 .occordionList:hover {
   background-color: #13b6b6db !important;
-  --bs-accordion-active-bg: #13b6b6db !important;
 }
 
 .occordionOnFocus {
   --bs-accordion-active-bg: #13b6b6db !important;
+  color: whitesmoke !important;
 }
 
-occordionOnFocus::after {
-  color: whitesmoke !important;
-  background-color: whitesmoke !important;
+.occordionOnFocus:hover {
+  background-color: #13b6b6db;
+}
+
+.occordionOnFocus:focus {
+  --bs-accordion-active-bg: #13b6b6db !important;
+  box-shadow: none;
+}
+
+.selected {
+  background-color: #13b6b6db !important;
 }

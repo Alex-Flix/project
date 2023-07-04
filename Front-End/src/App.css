@@ -11,8 +11,10 @@
   --textColor: whitesmoke;
   --dropDownBg: rgba(245, 245, 245, 0.25);
   --scrollNavColor: rgb(8, 26, 54, 0.9);
+  --loginOverlay: rgb(8, 26, 54, 0.6);
   --animationDuration: 1;
   --homeOverlay: rgb(8, 26, 54, 0.5);
+  --loginInputsBg:rgb(67, 87, 118);
   --bs-accordion-btn-icon-whitesmoke: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23F5F5F5'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 .alex-bg {
@@ -83,8 +85,48 @@ h3[data-bs-toggle="collapse"]:not(.collapsed) {
 }
 
 .bg-dark-light {
-  background-color: #040404bb;
+  background-color: var(--scrollNavColor);
 }
+#register-section-container{
+  color: var(--textColor) !important;
+}
+#register-section-container .form-check-input:checked{
+background-color: var(--specialColor);
+border-color: var(--specialColor);
+}
+#login-section-container #loginBtn,#register-section-container #registerBtn{
+  background-color: var(--textColor);
+  color: var(--bgColor);
+  border: none;
+}
+#login-section-container #loginBtn:hover,#register-section-container #registerBtn:hover{  
+  background-color: var(--specialColor);
+}
+ .login-input{
+  background-color: var(--loginInputsBg) !important;
+}
+ .login-input:focus{
+  box-shadow: 0 0 7px var(--specialColor) !important;
+  border: none;
+}
+
+#confirm-email #confirm-icon{
+  color: var(--specialColor);
+}
+#confirm-email #emailToConfirm{
+  color: var(--specialColor);
+}
+
+#change-pass-section #save-changes-pass,#reset-pass-section #save-new-pass{
+  background-color: var(--textColor);
+  color: var(--bgColor);
+  border: none;
+}
+#change-pass-section #save-changes-pass:hover,#reset-pass-section #save-new-pass:hover{
+  background-color: var(--specialColor);
+}
+
+
 
 .bg-cover {
   background-image: var(--bg-cover);
@@ -98,7 +140,7 @@ h3[data-bs-toggle="collapse"]:not(.collapsed) {
 }
 
 .bg-cover-shadow {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--loginOverlay);
 }
 
 .form-floating > .form-control:focus ~ label,

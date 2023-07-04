@@ -5,7 +5,8 @@ import { searchForVid } from "../../../api/apiStream";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import { getAllFav } from "../../../store/Slice/videosSlice";
-export function Videos({ videos, type }) {
+export default function Videos({ videos, type }) {
+  console.log(videos,type);
   const [category, setCategory] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [renderedVids, setRenderedVids] = useState(videos);

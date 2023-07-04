@@ -25,7 +25,7 @@ export default function ResetPassword() {
   };
   return (
     <>
-      <main className="vh-100 bg-cover">
+      <main id="reset-pass-section" className="vh-100 bg-cover">
         <div className="h-100 bg-cover-shadow d-flex justify-content-center align-items-center">
           <Formik
             validationSchema={resetPasswordSchema}
@@ -53,7 +53,7 @@ export default function ResetPassword() {
                   <FloatingLabel controlId="newPassword" label="New Password">
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1"
                       name="password"
                       placeholder="Password "
                       autoComplete="true"
@@ -75,7 +75,7 @@ export default function ResetPassword() {
                   >
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1"
                       name="confirmPassword"
                       placeholder="Password"
                       autoComplete="true"
@@ -96,7 +96,7 @@ export default function ResetPassword() {
                 </Form.Group>
 
                 <div className="pb-5 pt-4 text-end">
-                  <Button type="submit" className="btn btn-danger  py-2">
+                  <Button id="save-new-pass" type="submit" className="btn fw-bold btn-danger py-2">
                     {loader ? "Save Password" : "Waiting......"}
                   </Button>
                 </div>

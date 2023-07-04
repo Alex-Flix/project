@@ -31,7 +31,7 @@ export default function Register() {
 
   return (
     <>
-      <main className="vh-100 bg-cover">
+      <main id="register-section-container" className="vh-100 bg-cover">
         <div className="h-100 bg-cover-shadow d-flex justify-content-center align-items-center">
           <Formik
             validationSchema={registerSchema}
@@ -58,14 +58,14 @@ export default function Register() {
               <Form
                 noValidate
                 onSubmit={handleSubmit}
-                className="col-xl-4 col-lg-6 col-md-8 col-10 mx-auto bg-dark-light text-light p-5 rounded-4"
+                className="col-xl-4 col-lg-6 col-md-8 col-10 mx-auto bg-dark-light text-light py-4 px-5 rounded-4"
               >
-                <h2 className="pt-2 pb-4">Register</h2>
+                <h2 className="pt-3 pb-4">Register</h2>
                 <Form.Group className="form-floating  mb-2">
                   <FloatingLabel controlId="firstName" label="FirstName">
                     <Form.Control
                       type="text"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="firstName"
                       placeholder=" "
                       value={values.firstName}
@@ -83,7 +83,7 @@ export default function Register() {
                   <FloatingLabel controlId="lastName" label="LastName">
                     <Form.Control
                       type="text"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="lastName"
                       placeholder=" "
                       value={values.lastName}
@@ -101,7 +101,7 @@ export default function Register() {
                   <FloatingLabel controlId="email" label="Email Address">
                     <Form.Control
                       type="email"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="email"
                       placeholder=" "
                       value={values.email}
@@ -119,7 +119,7 @@ export default function Register() {
                   <FloatingLabel controlId="password" label="Password">
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="password"
                       placeholder="Password "
                       autoComplete="true"
@@ -141,7 +141,7 @@ export default function Register() {
                   >
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="confirmPassword"
                       placeholder="Password"
                       autoComplete="true"
@@ -164,7 +164,7 @@ export default function Register() {
                   <FloatingLabel controlId="phone" label="Phone">
                     <Form.Control
                       type="text"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="phone"
                       placeholder=" "
                       value={values.phone}
@@ -182,7 +182,7 @@ export default function Register() {
                   <FloatingLabel controlId="age" label="Age">
                     <Form.Control
                       type="number"
-                      className="bg-dark text-light rounded-1"
+                      className="text-light rounded-1 login-input"
                       name="age"
                       placeholder=" "
                       value={values.age}
@@ -220,7 +220,7 @@ export default function Register() {
                 </Form.Group>
 
                 <div className="pb-4 pt-3 text-center">
-                  <Button type="submit" className="btn-danger w-100 py-2">
+                  <Button id="registerBtn" type="submit" className="w-100 py-2 fw-bold">
                     {loader ? "Register" : "Waiting......"}
                   </Button>
                 </div>

@@ -4,8 +4,19 @@ import "./SeriesHandle.css";
 
 const SeriesHandler = ({ movieDetails }) => {
   const navigate = useNavigate();
+  const [selectedEpisode, setSelectedEpisode] = useState(null);
+
   const moveToDetails = (season, episode) => {
     navigate(`/movies/${movieDetails._id}?season=${season}episode=${episode}`);
+    setSelectedEpisode(`${season}-${episode}`);
+  };
+
+  const getEpisodeClassName = (season, episode) => {
+    if (`${season}-${episode}` === selectedEpisode) {
+      return "list-group-item list-group-item-action occordionList selected";
+    } else {
+      return "list-group-item list-group-item-action occordionList";
+    }
   };
 
   return (
@@ -14,7 +25,7 @@ const SeriesHandler = ({ movieDetails }) => {
         <div className="accordion-item">
           <h2 className="accordion-header">
             <button
-              className="accordion-button collapsed occordionList occordionOnFocus"
+              className="accordion-button collapsed  occordionOnFocus"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseOne"
@@ -32,28 +43,28 @@ const SeriesHandler = ({ movieDetails }) => {
             <div className="accordion-body">
               <div className="list-group">
                 <p
-                  className="list-group-item list-group-item-action active occordionList"
+                  className={getEpisodeClassName(1, 1)}
                   style={{ cursor: "pointer" }}
                   onClick={() => moveToDetails(1, 1)}
                 >
                   Episode 1
                 </p>
                 <p
-                  className="list-group-item list-group-item-action occordionList"
+                  className={getEpisodeClassName(1, 2)}
                   style={{ cursor: "pointer" }}
                   onClick={() => moveToDetails(1, 2)}
                 >
                   Episode 2
                 </p>
                 <p
-                  className="list-group-item list-group-item-action occordionList"
+                  className={getEpisodeClassName(1, 3)}
                   style={{ cursor: "pointer" }}
                   onClick={() => moveToDetails(1, 3)}
                 >
                   Episode 3
                 </p>
                 <p
-                  className="list-group-item list-group-item-action occordionList"
+                  className={getEpisodeClassName(1, 4)}
                   style={{ cursor: "pointer" }}
                   onClick={() => moveToDetails(1, 4)}
                 >
@@ -66,7 +77,7 @@ const SeriesHandler = ({ movieDetails }) => {
         <div className="accordion-item">
           <h2 className="accordion-header">
             <button
-              className="accordion-button collapsed occordionList occordionOnFocus"
+              className="accordion-button collapsed  occordionOnFocus"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#flush-collapseTwo"
@@ -84,30 +95,29 @@ const SeriesHandler = ({ movieDetails }) => {
             <div className="accordion-body">
               <div className="list-group">
                 <p
+                  className={getEpisodeClassName(2, 1)}
                   onClick={() => moveToDetails(2, 1)}
-                  className="list-group-item list-group-item-action active occordionList"
-                  aria-current="true"
                   style={{ cursor: "pointer" }}
                 >
                   Episode 1
                 </p>
                 <p
+                  className={getEpisodeClassName(2, 2)}
                   onClick={() => moveToDetails(2, 2)}
-                  className="list-group-item list-group-item-action occordionList"
                   style={{ cursor: "pointer" }}
                 >
                   Episode 2
                 </p>
                 <p
+                  className={getEpisodeClassName(2, 3)}
                   onClick={() => moveToDetails(2, 3)}
-                  className="list-group-item list-group-item-action occordionList"
                   style={{ cursor: "pointer" }}
                 >
                   Episode 3
                 </p>
                 <p
+                  className={getEpisodeClassName(2, 4)}
                   onClick={() => moveToDetails(2, 4)}
-                  className="list-group-item list-group-item-action occordionList"
                   style={{ cursor: "pointer" }}
                 >
                   Episode 4

@@ -1,0 +1,23 @@
+#home-img > .text-content {
+  color: var(--textColor);
+  min-width: 75%;
+  transform: translate(-50%, -30%);
+  -webkit-transform: translate(-50%, -30%);
+  -moz-transform: translate(-50%, -30%);
+  -ms-transform: translate(-50%, -30%);
+  -o-transform: translate(-50%, -30%);
+}
+
+/* #home-img > .text-content>h1,#home-img > .text-content>p{
+
+font-size: 60px;
+
+} */
+
+#home-img > .text-content > #welcome-msg > span {
+  color: var(--specialColor);
+}
+#home-img > #home-img-overlay {
+  background-color: var(--bgColor);
+  opacity: 0.5;
+}

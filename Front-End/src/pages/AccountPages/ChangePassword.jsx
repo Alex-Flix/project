@@ -25,7 +25,7 @@ export default function ChangePassword() {
   };
   return (
     <>
-      <main className="vh-100 bg-cover">
+      <main id="change-pass-section" className="vh-100 bg-cover">
         <div className="h-100 bg-cover-shadow d-flex justify-content-center align-items-center">
           <Formik
             validationSchema={changePasswordSchema}
@@ -57,7 +57,7 @@ export default function ChangePassword() {
                   >
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1 login-input"
                       name="currentPassword"
                       placeholder=" "
                       autoComplete="true"
@@ -80,7 +80,7 @@ export default function ChangePassword() {
                   <FloatingLabel controlId="newPassword" label="New Password">
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1"
                       name="password"
                       placeholder="Password "
                       autoComplete="true"
@@ -102,7 +102,7 @@ export default function ChangePassword() {
                   >
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1"
                       name="confirmPassword"
                       placeholder="Password"
                       autoComplete="true"
@@ -123,8 +123,12 @@ export default function ChangePassword() {
                 </Form.Group>
 
                 <div className="pb-5 pt-4 text-end">
-                  <Button type="submit" className="btn btn-danger  py-2">
-                  {loader ? "Save Change" : "Waiting......"} 
+                  <Button
+                    id="save-changes-pass"
+                    type="submit"
+                    className="btn btn-danger fw-bold py-2"
+                  >
+                    {loader ? "Save Change" : "Waiting......"}
                   </Button>
                 </div>
               </Form>

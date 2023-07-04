@@ -50,7 +50,7 @@ export default function Login() {
   }, []);
   return (
     <>
-      <main className="vh-100 bg-cover">
+      <main id="login-section-container" className="vh-100 bg-cover">
         <div className="h-100 bg-cover-shadow d-flex justify-content-center align-items-center">
           <Formik
             validationSchema={loginSchema}
@@ -78,7 +78,7 @@ export default function Login() {
                   <FloatingLabel controlId="email" label="Email Address">
                     <Form.Control
                       type="email"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1"
                       name="email"
                       placeholder=" "
                       value={values.email}
@@ -96,7 +96,7 @@ export default function Login() {
                   <FloatingLabel controlId="password" label="Password">
                     <Form.Control
                       type="password"
-                      className="bg-dark text-light rounded-1"
+                      className="login-input text-light rounded-1"
                       name="password"
                       placeholder="Password "
                       autoComplete="true"
@@ -113,23 +113,29 @@ export default function Login() {
                 </Form.Group>
                 <div className="text-end mb-3">
                   <Link
+                    style={{ color: "var(--specialColor)" }}
                     to="/recoverPassword"
-                    className="text-light text-decoration-none fs-6"
+                    className=" text-danger text-decoration-none fs-6"
                   >
                     Forgot Password ?
                   </Link>
                 </div>
                 <div className="pb-4 pt-3 text-center">
-                  <Button type="submit" className="btn-danger w-100 py-2">
+                  <Button
+                    id="loginBtn"
+                    type="submit"
+                    className=" fw-bold w-100 py-2"
+                  >
                     {loader ? "Login" : "Waiting......"}
                   </Button>
                 </div>
                 <div className="pb-5 mb-4">
-                  <p className="text-secondary h6">
+                  <p style={{ color: "var(--textColor)" }} className=" h6">
                     New to AlexFlix?
                     <Link
+                      style={{ color: "var(--specialColor)" }}
                       to="/register"
-                      className="text-light text-decoration-none ps-2"
+                      className=" text-decoration-none ps-2"
                     >
                       Sign up now.
                     </Link>

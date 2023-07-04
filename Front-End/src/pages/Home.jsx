@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { CardsSlider } from "../Streaming Components//Cards Slider Component/CardsSlider";
-import { Nav } from "../Navbar Components/Nav component/Nav";
-import Footer from "../Footer";
+import { CardsSlider } from "../components/Streaming Components/Cards Slider Component/CardsSlider";
+import { Nav } from "../components/Navbar Components/Nav component/Nav";
+import Footer from "../components/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllVids, getAllFav } from "../../store/Slice/videosSlice";
-import { getAllProduct } from "../../api/apiEcommerce";
-import homeImage from "../../assets/images/homeImg.jpg";
+import { fetchAllVids, getAllFav } from "../store/Slice/videosSlice";
+import { getAllProduct } from "../api/apiEcommerce";
+import homeImage from "../assets/images/homeImg.jpg";
 import "react-alice-carousel/lib/alice-carousel.css";
-import "./home.css";
+import "../components/Streaming Components/StreamPagesStyles/home.css";
 export function Home() {
   const [products, setProducts] = useState([]);
   const allVids = useSelector((state) => state.videos);

@@ -53,7 +53,7 @@ export default function RecoverPassword() {
                   <FloatingLabel controlId="email" label="Email Address">
                     <Form.Control
                       type="email"
-                      className="bg-dark text-light rounded-1"
+                      className=" text-light rounded-1 login-input"
                       name="email"
                       placeholder=" "
                       value={values.email}

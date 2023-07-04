@@ -62,8 +62,7 @@ configAxios.interceptors.response.use(
   }
 );
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDkwMGE3NjE3YjUzNjk2ZmEyOTRmZjMiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjg3NjA1OTkzfQ.gQnrfC6NNNa8oaFeGq2IE1e83KkPzJNdxbwhYnGxcJQ";
-
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGE0NTg2NGEyODUzMGQ4ZmRmMThiNWIiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNjg4NDkyMjY4fQ.ig8aPBPOWmVJrJRekL1JDGszJU_HybDEHnzUDT7OMwA";
 // ECommerce
 export const storeAxios = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,

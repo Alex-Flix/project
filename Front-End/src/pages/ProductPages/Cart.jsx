@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
@@ -16,14 +16,18 @@ export default function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  let totalPrice =
-    cartProducts.reduce(
-      (accumulator, currentValue) =>
-        accumulator + currentValue.quantity * currentValue.price,
-      0
-    ) + 10;
+  let totalPrice = cartProducts.reduce(
+    (accumulator, currentValue) =>
+      accumulator + currentValue.quantity * currentValue.price,
+    0
+  );
+  const [tax, setTax] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    setTax(totalPrice * 0.05);
+  }, [tax, totalPrice]);
 
   const [formData, setFormData] = useState({
     city: "",
@@ -236,16 +240,17 @@ export default function Cart() {
                 </tr>
                 <tr>
                   <td>TAX</td>
-                  <td>$10.00 </td>
+                  <td> ${tax} </td>
                 </tr>
                 <tr>
                   <td>TOTAL</td>
-                  <td>${totalPrice}</td>
+                  <td>${totalPrice + tax}</td>
                 </tr>
               </tbody>
             </table>
 
             <button
+              disabled={cartProducts.length > 0 ? false : true}
               className="btn btn-outline-success w-100"
               onClick={() => setShowModal(true)}
             >

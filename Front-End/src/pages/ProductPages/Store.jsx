@@ -35,7 +35,6 @@ export default function Store() {
       if (newQuery[item] && newQuery[item] !== "max")
         string += `${item}=${newQuery[item]}&`;
     }
-    console.log(string);
     string = string.slice(0, -1);
     navigate(`/store/search?${string}`);
   }
@@ -86,20 +85,6 @@ export default function Store() {
     navigate(`/store/product/${id}`);
   }
 
-  // function increasePage(e) {
-  //   e.preventDefault();
-  //   if (page === 13) return;
-  //   let newP = page;
-  //   newP++;
-  //   setPage(newP);
-  // }
-  // function decreasePage(e) {
-  //   e.preventDefault();
-  //   if (page === 1) return;
-  //   let newP = page;
-  //   newP--;
-  //   setPage(newP);
-  // }
   if (!allProducts) {
     return <FullScreenLoader />;
   }
@@ -162,7 +147,7 @@ export default function Store() {
       </section>
       <section id="product1" className="section-p1">
         <div className="pro-container">
-          {allProducts &&
+          {allProducts.length > 0 &&
             allProducts?.map((product) => {
               let i = cartProducts.findIndex((c) => c._id === product._id);
               if (i !== -1) {
@@ -193,22 +178,23 @@ export default function Store() {
                     className="cart-icon"
                     onClick={() => {
                       let obj = { ...product, quantity: 1 };
-                      // dispatch(addToCart(obj));
                       dispatch(toggleProductFromCart(obj));
                     }}
                   >
                     {product.isAdd ? (
-                      <i class="fa-solid fa-cart-shopping cart text-danger"></i>
+                      <i className="fa-solid fa-cart-shopping cart text-danger"></i>
                     ) : (
                       <i className="fa-solid fa-cart-plus cart"></i>
                     )}
-                    {/* <i className="fa-solid fa-cart-plus cart"></i> */}
                   </span>
                 </div>
               );
             })}
         </div>
-        {allProducts && allProducts.length === 0 && (
+
+        {allProducts.length > 0 ? (
+          ""
+        ) : (
           <span className="text-danger">NO PRODUCTS FOUND .. </span>
         )}
       </section>

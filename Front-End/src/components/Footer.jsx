@@ -32,10 +32,11 @@ export default function Footer() {
 
       <div className="footer-col">
         <h4>My Account</h4>
-        <Link to={token?"/profile":"/login"} >{token?"Profile":"Sign In"}</Link>
-        <Link to={`/store/cart`}>View Cart</Link>
-        <Link to={`/favorites`}>My Favorites</Link>
-        <Link to={`/user/orders`}>Track My Order</Link>
+        <Link className={`text-info ${token?"d-none":""}`} to={"/register"} >Register</Link>
+        <Link className=" text-info" to={token?"/profile":"/login"} >{token?"Profile":"Sign In"}</Link>
+        <Link className=" text-info" to={`/store/cart`}>View Cart</Link>
+        <Link className=" text-info" to={`/favorites`}>My Favorites</Link>
+        <Link className=" text-info" to={`/user/orders`}>Track My Order</Link>
       </div>
 
       <div className="copyright">
