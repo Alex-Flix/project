@@ -1,5 +1,6 @@
 import { Button } from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
+import "./settings.css";
 import ChangePassword from "../../pages/AccountPages/ChangePassword";
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
