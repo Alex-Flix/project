@@ -7,7 +7,6 @@ import { fetchAllVids, getAllFav } from "../../store/Slice/videosSlice";
 import { getAllProduct } from "../../api/apiEcommerce";
 import homeImage from "../../assets/images/homeImg.jpg";
 import "react-alice-carousel/lib/alice-carousel.css";
-import "./home.css";
 export function Home() {
   const [products, setProducts] = useState([]);
   const allVids = useSelector((state) => state.videos);
