@@ -22,15 +22,15 @@ import ReviewsList from './../pages/AdminPages/ReviewsList';
 import Store from './../pages/ProductPages/Store';
 import Cart from './../pages/ProductPages/Cart';
 import ProductDetails from './../pages/ProductPages/ProductDetails';
-import Movies from './../components/Streaming Components/MoviesComponent/Movies';
-import Animes from './../components/Streaming Components/Anime Component/Anime';
-import Series from './../components/Streaming Components/Series Component/Series';
-import MovieDetails from './../components/Streaming Components/Movie page component/Movie';
 import Favorites from './../components/Streaming Components/Favorites component/Favorites';
 import ChangePassword from './../pages/AccountPages/ChangePassword';
 import Profile from './../pages/AccountPages/Profile';
 import Settings from './../components/Account  Component/Settings';
 import UserOrders from './../pages/ProductPages/UserOrders';
+import Movies from './../pages/StreamPages/Movies';
+import Animes from './../pages/StreamPages/Anime';
+import Series from './../pages/StreamPages/Series';
+import MovieDetails from './../pages/StreamPages/moviePage';
 export default function Router() {
  
 
